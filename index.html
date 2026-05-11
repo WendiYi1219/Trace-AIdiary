@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Trace — 基于正向心理学的 AI 日记应用可交互原型：写日记、日历、AI 聊天等流程演示（适合作品集与面试展示）。"
+    />
+    <meta name="theme-color" content="#f4f0eb" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Trace — 每日微光 | 产品演示" />
+    <meta
+      property="og:description"
+      content="Trace AI 日记应用可交互原型，含写日记、日历、AI 聊天等完整界面流程。"
+    />
+    <title>Trace — 每日微光</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Playfair+Display:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <div class="phone" aria-label="手机预览外框">
+        <div class="phone__bezel">
+          <div class="phone__screen">
+            <main class="app">
+              <div class="app__flow-bg" aria-hidden="true"></div>
+              <div class="app__ambient" aria-hidden="true">
+                <div class="app__ambient-sheen"></div>
+                <div class="app__blob app__blob--mint"></div>
+                <div class="app__blob app__blob--pink"></div>
+                <div class="app__blob app__blob--peach"></div>
+                <div class="app__blob app__blob--cream"></div>
+              </div>
+              <div class="app__scroll">
+                <section class="view view--diary view--active" data-view="diary">
+                <header class="head">
+                  <div class="head__date">
+                    <div class="head__date-grid">
+                      <div class="head__date-grid__label">
+                        <span class="head__label">Month</span>
+                      </div>
+                      <div class="head__date-grid__label">
+                        <span class="head__label">Day</span>
+                      </div>
+                      <div class="head__date-grid__label">
+                        <span class="head__label">Year</span>
+                      </div>
+                      <div class="head__date-grid__pad" aria-hidden="true"></div>
+                      <div class="head__box" id="display-month">April</div>
+                      <div class="head__box" id="display-day">23</div>
+                      <div class="head__box" id="display-year">2026</div>
+                      <p class="head__weekday" id="display-weekday">Monday</p>
+                    </div>
+                  </div>
+                </header>
+
+                <section class="hero" aria-label="今日寄语">
+                  <img class="hero__generated" id="hero-generated" alt="根据输入生成的图片" />
+                  <p class="hero__quote">
+                    <span class="hero__line">Leave your</span>
+                    <span class="hero__line">trace today</span>
+                  </p>
+                </section>
+
+                <section class="block block--collapsed">
+                  <h2 class="block__title block__title--orange">
+                    <button
+                      type="button"
+                      class="block__toggle"
+                      aria-expanded="false"
+                      aria-controls="block-list-gratitude"
+                    >
+                      <span class="block__dot" aria-hidden="true"></span>
+                    </button>
+                    <span class="block__title-text block__title-text--gratitude">
+                      <span class="block__count block__count--orange">3</span>件值得感恩的事
+                    </span>
+                  </h2>
+                  <div class="block__list" id="block-list-gratitude">
+                    <div class="input-wrap">
+                      <span class="input-prefix input-prefix--orange" aria-hidden="true">1.</span>
+                      <textarea
+                        class="input input--area"
+                        rows="3"
+                        placeholder="点击此处开始输入..."
+                      ></textarea>
+                      <button type="button" class="input-reset" aria-label="清空所有输入">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                          <path
+                            d="M12 4a8 8 0 1 1-5.66 2.34"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                          />
+                          <path
+                            d="M8.5 2.8 5 6.3l4.2.1"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                      </button>
+                      <canvas class="input-sun" width="200" height="200" aria-hidden="true"></canvas>
+                    </div>
+                    <div class="input-wrap">
+                      <span class="input-prefix input-prefix--orange" aria-hidden="true">2.</span>
+                      <textarea
+                        class="input input--area"
+                        rows="3"
+                        placeholder="点击此处开始输入..."
+                      ></textarea>
+                      <button type="button" class="input-reset" aria-label="清空所有输入">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                          <path
+                            d="M12 4a8 8 0 1 1-5.66 2.34"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                          />
+                          <path
+                            d="M8.5 2.8 5 6.3l4.2.1"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                      </button>
+                      <canvas class="input-sun" width="200" height="200" aria-hidden="true"></canvas>
+                    </div>
+                    <div class="input-wrap">
+                      <span class="input-prefix input-prefix--orange" aria-hidden="true">3.</span>
+                      <textarea
+                        class="input input--area"
+                        rows="3"
+                        placeholder="点击此处开始输入..."
+                      ></textarea>
+                      <button type="button" class="input-reset" aria-label="清空所有输入">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                          <path
+                            d="M12 4a8 8 0 1 1-5.66 2.34"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                          />
+                          <path
+                            d="M8.5 2.8 5 6.3l4.2.1"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                      </button>
+                      <canvas class="input-sun" width="200" height="200" aria-hidden="true"></canvas>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="block block--collapsed">
+                  <h2 class="block__title block__title--teal">
+                    <button
+                      type="button"
+                      class="block__toggle"
+                      aria-expanded="false"
+                      aria-controls="block-list-improve"
+                    >
+                      <span class="block__dot" aria-hidden="true"></span>
+                    </button>
+                    <span class="block__title-text block__title-text--gratitude">
+                      <span class="block__count block__count--teal">2</span>个可以改进的空间
+                    </span>
+                  </h2>
+                  <div class="block__list" id="block-list-improve">
+                    <div class="input-wrap">
+                      <span class="input-prefix input-prefix--teal" aria-hidden="true">1.</span>
+                      <textarea
+                        class="input input--area"
+                        rows="3"
+                        placeholder="点击此处开始输入..."
+                      ></textarea>
+                      <button type="button" class="input-reset" aria-label="清空所有输入">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                          <path
+                            d="M12 4a8 8 0 1 1-5.66 2.34"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                          />
+                          <path
+                            d="M8.5 2.8 5 6.3l4.2.1"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                      </button>
+                      <canvas class="input-sun" width="200" height="200" aria-hidden="true"></canvas>
+                    </div>
+                    <div class="input-wrap">
+                      <span class="input-prefix input-prefix--teal" aria-hidden="true">2.</span>
+                      <textarea
+                        class="input input--area"
+                        rows="3"
+                        placeholder="点击此处开始输入..."
+                      ></textarea>
+                      <button type="button" class="input-reset" aria-label="清空所有输入">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                          <path
+                            d="M12 4a8 8 0 1 1-5.66 2.34"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                          />
+                          <path
+                            d="M8.5 2.8 5 6.3l4.2.1"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                      </button>
+                      <canvas class="input-sun" width="200" height="200" aria-hidden="true"></canvas>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="block block--collapsed">
+                  <h2 class="block__title block__title--violet">
+                    <button
+                      type="button"
+                      class="block__toggle"
+                      aria-expanded="false"
+                      aria-controls="block-list-affirm"
+                    >
+                      <span class="block__dot" aria-hidden="true"></span>
+                    </button>
+                    <span class="block__title-text block__title-text--gratitude">
+                      <span class="block__count block__count--violet">1</span>句对自己的肯定
+                    </span>
+                  </h2>
+                  <div class="block__list" id="block-list-affirm">
+                    <div class="input-wrap">
+                      <span class="input-prefix input-prefix--rose" aria-hidden="true">1.</span>
+                      <textarea
+                        class="input input--area"
+                        rows="3"
+                        placeholder="我是最棒的，因为..."
+                      ></textarea>
+                      <button type="button" class="input-reset" aria-label="清空所有输入">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                          <path
+                            d="M12 4a8 8 0 1 1-5.66 2.34"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                          />
+                          <path
+                            d="M8.5 2.8 5 6.3l4.2.1"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                      </button>
+                      <canvas class="input-sun" width="200" height="200" aria-hidden="true"></canvas>
+                    </div>
+                  </div>
+                </section>
+
+                <div class="actions">
+                  <button type="button" class="btn btn--soft" id="generate-image-btn">
+                    <svg class="btn__icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                      <path
+                        fill="currentColor"
+                        d="M19 9l1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25L19 9zm-7.5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12l-5.5-2.5zM19 15l-1.25 2.75L15 19l2.75 1.25L19 23l1.25-2.75L23 19l-2.75-1.25L19 15z"
+                      />
+                    </svg>
+                    <span id="generate-image-btn-label">Generate</span>
+                  </button>
+                  <button type="button" class="btn btn--primary" id="add-to-calendar-btn">Add to calendar</button>
+                </div>
+                <div
+                  class="actions actions--secondary download-actions--hidden"
+                  id="download-actions"
+                  hidden
+                >
+                  <button type="button" class="btn btn--soft" id="download-image-btn">Save image</button>
+                </div>
+                <p class="generate-status" id="generate-status" role="status" aria-live="polite"></p>
+                </section>
+
+                <section class="view view--calendar" data-view="calendar" aria-label="日历页面">
+                  <div class="calendar-page">
+                    <header class="calendar-page-head" aria-label="当前月份与年份">
+                      <div class="calendar-page-head__grid">
+                        <div class="head__date-grid__label">
+                          <span class="head__label">Month</span>
+                        </div>
+                        <div class="head__date-grid__label">
+                          <span class="head__label">Year</span>
+                        </div>
+                        <div class="head__box" id="calendar-display-month">April</div>
+                        <div class="head__box" id="calendar-display-year">2026</div>
+                      </div>
+                      <button type="button" class="calendar-page-head__search-btn" aria-label="搜索日期范围">
+                        <svg viewBox="0 0 69 69" aria-hidden="true">
+                          <path
+                            d="M61.9777 57.978C59.6684 60.2857 54.8666 61.2719 52.5783 58.9673L38.423 44.8373C38.3299 44.7445 38.2561 44.6343 38.2057 44.5129C38.1553 44.3916 38.1293 44.2614 38.1292 44.13C38.1291 43.9986 38.1549 43.8685 38.2051 43.747C38.2554 43.6256 38.3291 43.5153 38.422 43.4223L39.713 42.1313L36.4004 38.8187C32.0246 41.6126 26.7711 42.6921 21.6481 41.8501C16.5252 41.0081 11.8937 38.3039 8.64231 34.2563C5.39097 30.2088 3.74889 25.1032 4.03118 19.9192C4.31348 14.7352 6.50026 9.838 10.1719 6.16746C13.8435 2.49693 18.7413 0.311601 23.9254 0.0308446C29.1095 -0.249912 34.2147 1.39368 38.2612 4.64622C42.3078 7.89876 45.0106 12.5311 45.8511 17.6543C46.6916 22.7775 45.6106 28.0306 42.8154 32.4056L46.127 35.7172L47.4219 34.4223C47.5148 34.3294 47.6251 34.2557 47.7466 34.2055C47.868 34.1553 47.9982 34.1294 48.1296 34.1295C48.261 34.1296 48.3911 34.1556 48.5125 34.206C48.6338 34.2564 48.7441 34.3303 48.8369 34.4233L61.9869 47.5991C63.3575 48.979 64.1259 50.8455 64.1242 52.7905C64.1225 54.7354 63.3507 56.6005 61.9777 57.978ZM25.1291 38.0552C28.4767 38.0552 31.7491 37.0625 34.5325 35.2027C37.316 33.3429 39.4854 30.6994 40.7665 27.6066C42.0475 24.5139 42.3827 21.1106 41.7296 17.8274C41.0766 14.5441 39.4645 11.5282 37.0974 9.16108C34.7303 6.79396 31.7144 5.18194 28.4311 4.52885C25.1478 3.87576 21.7446 4.21095 18.6518 5.49202C15.5591 6.7731 12.9156 8.94252 11.0558 11.726C9.19595 14.5094 8.20327 17.7818 8.20327 21.1294C8.2083 25.6169 9.99316 29.9191 13.1663 33.0922C16.3394 36.2653 20.6416 38.0502 25.1291 38.0552ZM41.1271 40.7173L44.713 37.1314L41.6415 34.0599C40.5941 35.3946 39.3899 36.5984 38.055 37.6453L41.1271 40.7173ZM33.1291 18.2036C32.7742 18.2064 32.4227 18.2728 32.0913 18.3996L30.7008 16.7236C30.9782 16.265 31.1262 15.7397 31.1291 15.2036C31.1305 14.7118 31.011 14.2272 30.7811 13.7925C30.5512 13.3578 30.218 12.9862 29.8107 12.7105C29.4035 12.4348 28.9347 12.2635 28.4456 12.2116C27.9566 12.1597 27.4623 12.2289 27.0062 12.4129C26.5502 12.597 26.1464 12.8904 25.8304 13.2672C25.5144 13.644 25.2959 14.0927 25.1941 14.5739C25.0923 15.055 25.1103 15.5538 25.2466 16.0263C25.3829 16.4988 25.6333 16.9306 25.9757 17.2836L22.4891 24.24C22.0176 24.1574 21.5322 24.213 21.0916 24.4L19.7008 22.7236C19.9782 22.265 20.1262 21.7397 20.1291 21.2036C20.1291 20.6103 19.9531 20.0303 19.6235 19.5369C19.2938 19.0436 18.8253 18.659 18.2771 18.432C17.7289 18.2049 17.1257 18.1455 16.5438 18.2613C15.9619 18.377 15.4273 18.6627 15.0077 19.0823C14.5882 19.5019 14.3025 20.0364 14.1867 20.6184C14.071 21.2003 14.1304 21.8035 14.3574 22.3517C14.5845 22.8999 14.969 23.3684 15.4624 23.698C15.9557 24.0277 16.5357 24.2036 17.1291 24.2036C17.4839 24.2009 17.8354 24.1345 18.1669 24.0076L19.5574 25.6836C19.2799 26.1423 19.1319 26.6676 19.1291 27.2036C19.1276 27.6954 19.2471 28.18 19.477 28.6148C19.7069 29.0495 20.0402 29.4211 20.4474 29.6967C20.8547 29.9724 21.3235 30.1437 21.8125 30.1956C22.3016 30.2475 22.7959 30.1784 23.2519 29.9943C23.7079 29.8102 24.1117 29.5169 24.4277 29.1401C24.7437 28.7632 24.9623 28.3145 25.0641 27.8334C25.1659 27.3522 25.1478 26.8534 25.0115 26.3809C24.8752 25.9084 24.6249 25.4766 24.2825 25.1236L27.7691 18.1672C28.2406 18.2499 28.7259 18.1943 29.1666 18.0072L30.5574 19.6836C30.2799 20.1423 30.1319 20.6676 30.1291 21.2036C30.1291 21.797 30.305 22.377 30.6347 22.8703C30.9643 23.3637 31.4328 23.7482 31.981 23.9753C32.5292 24.2023 33.1324 24.2617 33.7143 24.146C34.2963 24.0302 34.8308 23.7445 35.2504 23.3249C35.6699 22.9054 35.9557 22.3708 36.0714 21.7889C36.1872 21.207 36.1278 20.6038 35.9007 20.0556C35.6736 19.5074 35.2891 19.0389 34.7958 18.7092C34.3024 18.3796 33.7224 18.2036 33.1291 18.2036Z"
+                            fill="currentColor"
+                          />
+                        </svg>
+                      </button>
+                    </header>
+
+                    <div class="calendar-grid" data-year="2026" data-month="4" id="calendar-grid">
+                      <div class="calendar-grid__week">Mon</div>
+                      <div class="calendar-grid__week">Tue</div>
+                      <div class="calendar-grid__week">Wed</div>
+                      <div class="calendar-grid__week">Thu</div>
+                      <div class="calendar-grid__week">Fri</div>
+                      <div class="calendar-grid__week">Sat</div>
+                      <div class="calendar-grid__week">Sun</div>
+
+                      <div class="calendar-grid__day calendar-grid__day--muted"></div>
+                      <div class="calendar-grid__day calendar-grid__day--muted"></div>
+                      <div class="calendar-grid__day" data-day="1">1</div>
+                      <div class="calendar-grid__day" data-day="2">2</div>
+                      <div class="calendar-grid__day" data-day="3">3</div>
+                      <div class="calendar-grid__day" data-day="4">4</div>
+                      <div class="calendar-grid__day" data-day="5">5</div>
+
+                      <div class="calendar-grid__day" data-day="6">6</div>
+                      <div class="calendar-grid__day" data-day="7">7</div>
+                      <div class="calendar-grid__day" data-day="8">8</div>
+                      <div class="calendar-grid__day" data-day="9">9</div>
+                      <div class="calendar-grid__day" data-day="10">10</div>
+                      <div class="calendar-grid__day" data-day="11">11</div>
+
+                      <div class="calendar-grid__day" data-day="12">12</div>
+                      <div class="calendar-grid__day" data-day="13">13</div>
+                      <div class="calendar-grid__day" data-day="14">14</div>
+                      <div class="calendar-grid__day" data-day="15">15</div>
+                      <div class="calendar-grid__day" data-day="16">16</div>
+                      <div class="calendar-grid__day" data-day="17">17</div>
+                      <div class="calendar-grid__day" data-day="18">18</div>
+
+                      <div class="calendar-grid__day" data-day="19">19</div>
+                      <div class="calendar-grid__day" data-day="20">20</div>
+                      <div class="calendar-grid__day" data-day="21">21</div>
+                      <div class="calendar-grid__day" data-day="22">22</div>
+                      <div class="calendar-grid__day" data-day="23">23</div>
+                      <div class="calendar-grid__day" data-day="24">24</div>
+                      <div class="calendar-grid__day" data-day="25">25</div>
+
+                      <div class="calendar-grid__day" data-day="26">26</div>
+                      <div class="calendar-grid__day" data-day="27">27</div>
+                      <div class="calendar-grid__day" data-day="28">28</div>
+                      <div class="calendar-grid__day" data-day="29">29</div>
+                      <div class="calendar-grid__day" data-day="30">30</div>
+                      <div class="calendar-grid__day calendar-grid__day--muted"></div>
+                      <div class="calendar-grid__day calendar-grid__day--muted"></div>
+                      <div class="calendar-grid__day calendar-grid__day--muted"></div>
+                    </div>
+                    <svg
+                      class="scratch-card-glass__mask-defs"
+                      width="0"
+                      height="0"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <defs>
+                        <mask
+                          id="scratch-ticket-mask"
+                          maskUnits="objectBoundingBox"
+                          maskContentUnits="objectBoundingBox"
+                        >
+                          <!-- 1.6:1 卡面；圆角 rect 已用不同 rx/ry 保证 40px 圆角。孔位用 ellipse：在 objectBoundingBox 下单个 r 会变成椭圆，须令 rx=R/W、ry=R/H 才是像素上的正圆 -->
+                          <rect width="1" height="1" fill="white" rx="0.125" ry="0.2" />
+                          <ellipse cx="0" cy="0.3" rx="0.03875" ry="0.062" fill="black" />
+                          <ellipse cx="1" cy="0.3" rx="0.03875" ry="0.062" fill="black" />
+                        </mask>
+                      </defs>
+                    </svg>
+                    <p class="scratch-card-glass__top-note">
+                      随机发现一段回忆
+                      <span class="scratch-card-glass__top-note-caret" aria-hidden="true"></span>
+                    </p>
+                    <div class="scratch-card-glass" role="group" aria-label="每日刮刮乐，在中间区域刮开涂层可查看小语">
+                      <div class="scratch-card-glass__body">
+                        <div class="scratch-card-glass__body-shine" aria-hidden="true"></div>
+                      </div>
+                      <p class="scratch-card-glass__hint">
+                        <span class="scratch-card-glass__hint-left">
+                          <span class="scratch-card-glass__hint-icon" aria-hidden="true">
+                            <svg
+                              class="scratch-card-glass__hint-decoration"
+                              width="24"
+                              height="24"
+                              viewBox="0 0 110 110"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M76.1017 24.3721C75.6745 23.9421 74.9848 23.9421 74.5587 24.3721L11.3196 88.1881C10.8935 88.6191 10.8935 89.3151 11.3196 89.7451L23.9161 102.456C24.3422 102.886 25.0319 102.886 25.4591 102.456L88.6982 38.6401C89.1243 38.2101 89.1253 37.5141 88.6982 37.0831L76.1017 24.3721ZM69.2896 50.4431L62.864 43.9581L74.5607 32.1551L80.9872 38.6401L69.2896 50.4431Z"
+                                fill="currentColor"
+                              />
+                              <path
+                                d="M63.5984 22.1596L67.0678 24L65.4701 19.9989L67.0678 16L63.5984 17.8383L60.1309 16L61.723 19.9989L60.1309 24L63.5984 22.1596Z"
+                                fill="currentColor"
+                              />
+                              <path
+                                d="M99.7705 33L96.7968 34.3791L93.8246 33L95.1925 36L93.8246 39L96.7968 37.6209L99.7705 39L98.4027 36L99.7705 33Z"
+                                fill="currentColor"
+                              />
+                              <path
+                                d="M90.3568 17.0113L96.7976 19.9986L93.8371 13.4993L96.7976 7L90.3568 9.98738L83.9147 7L86.8778 13.4993L83.9147 20L90.3568 17.0113Z"
+                                fill="currentColor"
+                              />
+                            </svg>
+                          </span>
+                          每日刮刮乐
+                        </span>
+                        <span class="scratch-card-glass__hint-date">4月25日 2026年</span>
+                      </p>
+                      <div class="scratch-card-glass__perforation" aria-hidden="true"></div>
+                      <div class="scratch-card-glass__content">
+                        <div class="scratch-card-glass__panel" id="scratch-card-panel">
+                          <div class="scratch-card-glass__reveal">
+                            <p class="scratch-card-glass__reveal-text" id="scratch-card-prize"></p>
+                          </div>
+                          <p class="scratch-card-glass__scratch-hint">在此区域轻轻刮开涂层</p>
+                          <canvas
+                            class="scratch-card-glass__scratch"
+                            id="scratch-card-canvas"
+                            width="16"
+                            height="16"
+                            role="img"
+                            aria-label="在此区域涂刮以揭开下方内容"
+                          ></canvas>
+                          <button type="button" class="scratch-card-glass__source-btn" id="scratch-view-source-btn">
+                            查看日记源
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="view view--ai" data-view="ai" aria-label="AI 聊天页面">
+                  <div class="ai-chat">
+                    <div class="input-wrap input-wrap--sun-active ai-chat__sun-host" aria-hidden="true">
+                      <canvas class="input-sun" width="200" height="200" aria-hidden="true"></canvas>
+                      <img class="ai-chat__sun-overlay" src="assets/frame-121.svg" alt="" aria-hidden="true" />
+                    </div>
+                    <div class="ai-chat__messages" id="ai-chat-messages"></div>
+
+                    <div class="ai-chat__composer">
+                      <div class="ai-chat__field">
+                        <input type="text" class="ai-chat__input" id="ai-chat-input" placeholder="" aria-label="输入消息" />
+                        <button type="button" class="ai-chat__send-btn" id="ai-chat-send-btn" aria-label="发送">
+                          <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M12 19V6M5 13l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+
+              <nav class="tab" aria-label="主导航">
+                <button
+                  type="button"
+                  class="tab__item tab__link tab__item--active"
+                  data-tab="diary"
+                  aria-current="page"
+                >
+                  写日记
+                </button>
+                <button type="button" class="tab__item tab__link" data-tab="calendar">日历</button>
+                <button type="button" class="tab__item tab__link" data-tab="ai">AI 聊天</button>
+              </nav>
+              <div class="home-bar" aria-hidden="true"></div>
+            </main>
+
+            <div class="calendar-modal" id="calendar-day-modal" hidden>
+              <div class="calendar-modal__backdrop" data-close-calendar-modal="true" aria-hidden="true"></div>
+              <section class="calendar-modal__panel" role="dialog" aria-modal="true" aria-label="日期内容预览">
+                <button
+                  type="button"
+                  class="calendar-modal__close"
+                  id="calendar-day-modal-close"
+                  aria-label="关闭日期预览"
+                >
+                  ×
+                </button>
+                <button type="button" class="calendar-modal__nav calendar-modal__nav--prev" id="calendar-day-modal-prev">‹</button>
+                <button type="button" class="calendar-modal__nav calendar-modal__nav--next" id="calendar-day-modal-next">›</button>
+                <div class="calendar-modal__zoom-cell" id="calendar-day-modal-zoom"></div>
+                <button type="button" class="btn btn--primary calendar-modal__view-btn" id="calendar-day-view-diary-btn">
+                  查看日记详情
+                </button>
+              </section>
+            </div>
+
+            <div class="calendar-modal" id="calendar-diary-modal" hidden>
+              <div class="calendar-modal__backdrop" data-close-calendar-diary="true" aria-hidden="true"></div>
+              <section class="calendar-modal__panel calendar-modal__panel--diary" role="dialog" aria-modal="true" aria-label="日记详情">
+                <button type="button" class="calendar-modal__back" id="calendar-diary-modal-back">返回日期</button>
+                <button
+                  type="button"
+                  class="calendar-modal__close"
+                  id="calendar-diary-modal-close"
+                  aria-label="关闭日记详情"
+                >
+                  ×
+                </button>
+                <h3 class="calendar-modal__title" id="calendar-diary-title">日记档案</h3>
+                <div class="calendar-diary-archive" id="calendar-diary-archive"></div>
+              </section>
+            </div>
+
+            <div class="calendar-modal" id="scratch-source-modal" hidden>
+              <div class="calendar-modal__backdrop" data-close-scratch-source="true" aria-hidden="true"></div>
+              <section class="calendar-modal__panel calendar-modal__panel--source" role="dialog" aria-modal="true" aria-label="日记源">
+                <button
+                  type="button"
+                  class="calendar-modal__close"
+                  id="scratch-source-modal-close"
+                  aria-label="关闭日记源"
+                >
+                  ×
+                </button>
+                <h3 class="calendar-modal__title" id="scratch-source-title">日记源</h3>
+                <section class="calendar-diary-archive__section calendar-diary-archive__section--orange">
+                  <h4>3件值得感恩的事</h4>
+                  <div class="calendar-diary-archive" id="scratch-source-gratitude"></div>
+                </section>
+                <button type="button" class="btn btn--primary calendar-modal__view-btn" id="scratch-source-view-full-btn">
+                  查看完整日记
+                </button>
+              </section>
+            </div>
+
+            <div class="calendar-modal" id="calendar-analysis-modal" hidden>
+              <div class="calendar-modal__backdrop" data-close-calendar-analysis="true" aria-hidden="true"></div>
+              <section
+                class="calendar-modal__panel calendar-modal__panel--analysis"
+                role="dialog"
+                aria-modal="true"
+                aria-label="AI Analyzer"
+              >
+                <button
+                  type="button"
+                  class="calendar-modal__close"
+                  id="calendar-analysis-modal-close"
+                  aria-label="关闭"
+                >
+                  ×
+                </button>
+                <div id="calendar-analysis-step-date" class="calendar-analysis-modal__step">
+                  <header class="calendar-analysis-modal__head">
+                    <p class="calendar-analysis-modal__hint">点击日期选择范围</p>
+                  </header>
+                  <div class="calendar-analysis-modal__grid-wrap">
+                    <div id="calendar-analysis-grid-host"></div>
+                  </div>
+                  <div class="calendar-analysis-modal__actions">
+                    <button type="button" class="btn btn--primary calendar-analysis-modal__btn" id="calendar-analysis-delete-btn">
+                      删除
+                    </button>
+                    <button type="button" class="btn btn--primary calendar-analysis-modal__btn" id="calendar-analysis-run-btn">
+                      选择分析
+                    </button>
+                  </div>
+                </div>
+                <div id="calendar-analysis-step-type" class="calendar-analysis-modal__step" hidden>
+                  <header class="calendar-analysis-modal__head">
+                    <p class="calendar-analysis-modal__hint">请选择分析类型（可多选）</p>
+                  </header>
+                  <div class="calendar-analysis-modal__options" id="calendar-analysis-options-slot">
+                    <label class="calendar-analysis-option">
+                      <input type="checkbox" id="calendar-analysis-option-emotion" />
+                      <span class="calendar-analysis-option__text">A 情绪趋势</span>
+                    </label>
+                    <label class="calendar-analysis-option">
+                      <input type="checkbox" id="calendar-analysis-option-hidden" />
+                      <span class="calendar-analysis-option__text">B 隐藏的积极信号</span>
+                    </label>
+                  </div>
+                  <div class="calendar-analysis-modal__actions">
+                    <button type="button" class="btn btn--primary calendar-analysis-modal__btn" id="calendar-analysis-back-btn">
+                      返回
+                    </button>
+                    <button type="button" class="btn btn--primary calendar-analysis-modal__btn" id="calendar-analysis-confirm-btn">
+                      开始分析
+                    </button>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a href="prd.html" class="portfolio-site-link">作品集与 PRD</a>
+    <script src="app.js"></script>
+    <script src="sun-canvas.js"></script>
+  </body>
+</html>

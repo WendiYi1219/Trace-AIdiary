@@ -1,0 +1,34 @@
+# --- 敏感配置：永远不要提交 ---
+.env
+.env.local
+.env.*.local
+
+# --- macOS / 编辑器 ---
+.DS_Store
+.AppleDouble
+.LSOverride
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# --- Python 虚拟环境（项目里只是离线工具，不需要发布） ---
+.venv_pillow/
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# --- 构建/临时产物 ---
+*.bak
+*.tmp
+*.log
+node_modules/
+
+# --- 大体积视频源文件（压缩脚本会备份成 .original.mp4） ---
+assets/*.original.mp4
+assets/*.original.mov
+
+# 如果某些大体积源素材你只想本地保留、不放到 GitHub，
+# 可以按需在下方逐项添加，例如：
+# assets/diary-writing.mov

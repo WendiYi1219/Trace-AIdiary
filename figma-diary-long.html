@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Trace 写日记 · Figma 长图导出</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Playfair+Display:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="figma-diary-export">
+    <p class="figma-diary-export__hint" aria-hidden="true">
+      长画板：含改进空间、肯定句与底部按钮。单屏截图请用 figma-diary-one-screen.html。html.to.design 可贴本机
+      http://127.0.0.1:端口/本文件名；无法访问本机时用 ngrok / Pages。
+    </p>
+    <div class="page">
+      <div class="phone" aria-label="手机预览外框">
+        <div class="phone__bezel">
+          <div class="phone__screen">
+            <main class="app">
+              <div class="app__flow-bg" aria-hidden="true"></div>
+              <div class="app__ambient" aria-hidden="true">
+                <div class="app__ambient-sheen"></div>
+                <div class="app__blob app__blob--mint"></div>
+                <div class="app__blob app__blob--pink"></div>
+                <div class="app__blob app__blob--peach"></div>
+                <div class="app__blob app__blob--cream"></div>
+              </div>
+              <div class="app__scroll">
+                <section class="view view--diary view--active" data-view="diary">
+                  <header class="head">
+                    <div class="head__date">
+                      <div class="head__date-grid">
+                        <div class="head__date-grid__label">
+                          <span class="head__label">Month</span>
+                        </div>
+                        <div class="head__date-grid__label">
+                          <span class="head__label">Day</span>
+                        </div>
+                        <div class="head__date-grid__label">
+                          <span class="head__label">Year</span>
+                        </div>
+                        <div class="head__date-grid__pad" aria-hidden="true"></div>
+                        <div class="head__box">April</div>
+                        <div class="head__box">25</div>
+                        <div class="head__box">2026</div>
+                        <p class="head__weekday">Saturday</p>
+                      </div>
+                    </div>
+                  </header>
+
+                  <section class="hero" aria-label="今日寄语">
+                    <p class="hero__quote">
+                      <span class="hero__line">Leave your</span>
+                      <span class="hero__line">trace today</span>
+                    </p>
+                  </section>
+
+                  <section class="block">
+                    <h2 class="block__title block__title--orange">
+                      <span class="block__toggle" aria-hidden="true"><span class="block__dot"></span></span>
+                      <span class="block__title-text block__title-text--gratitude">
+                        <span class="block__count block__count--orange">3</span>件值得感恩的事
+                      </span>
+                    </h2>
+                    <div class="block__list" id="block-list-gratitude">
+                      <div class="input-wrap">
+                        <span class="input-prefix input-prefix--orange" aria-hidden="true">1.</span>
+                        <textarea class="input input--area" rows="4" readonly>
+收到了 Polyu ISD 的 offer! 虽然大概率不会去，但是面试的感觉很不错，面试官反馈也很好。或许我未来真的适合重口头沟通的工作呢？</textarea>
+                        <span class="input-reset input-reset--static" aria-hidden="true">
+                          <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path
+                              d="M12 4a8 8 0 1 1-5.66 2.34"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                            />
+                            <path
+                              d="M8.5 2.8 5 6.3l4.2.1"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                        </span>
+                      </div>
+                      <div class="input-wrap">
+                        <span class="input-prefix input-prefix--orange" aria-hidden="true">2.</span>
+                        <textarea class="input input--area" rows="3" readonly>
+今天用 cursor 试着给自己的作品跑了一个 interface。希望五月中之前可以跑出来。</textarea>
+                        <span class="input-reset input-reset--static" aria-hidden="true">
+                          <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path
+                              d="M12 4a8 8 0 1 1-5.66 2.34"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                            />
+                            <path
+                              d="M8.5 2.8 5 6.3l4.2.1"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                        </span>
+                      </div>
+                      <div class="input-wrap">
+                        <span class="input-prefix input-prefix--orange" aria-hidden="true">3.</span>
+                        <textarea class="input input--area" rows="4" readonly>
+今天跟朋友 M 出去吃了披萨，本来想去一个 water reservoir 旁边逛，但是下雨了，所以我们就坐在车里聊天，也很开心。</textarea>
+                        <span class="input-reset input-reset--static" aria-hidden="true">
+                          <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path
+                              d="M12 4a8 8 0 1 1-5.66 2.34"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                            />
+                            <path
+                              d="M8.5 2.8 5 6.3l4.2.1"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                        </span>
+                      </div>
+                    </div>
+                  </section>
+
+                  <section class="block">
+                    <h2 class="block__title block__title--teal">
+                      <span class="block__toggle" aria-hidden="true"><span class="block__dot"></span></span>
+                      <span class="block__title-text block__title-text--gratitude">
+                        <span class="block__count block__count--teal">2</span>个可以改进的空间
+                      </span>
+                    </h2>
+                    <div class="block__list">
+                      <div class="input-wrap">
+                        <span class="input-prefix input-prefix--teal" aria-hidden="true">1.</span>
+                        <textarea class="input input--area" rows="3" readonly>
+晚上刷手机时间可以再缩短一点，留半小时给拉伸或阅读。</textarea>
+                        <span class="input-reset input-reset--static" aria-hidden="true">
+                          <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path
+                              d="M12 4a8 8 0 1 1-5.66 2.34"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                            />
+                            <path
+                              d="M8.5 2.8 5 6.3l4.2.1"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                        </span>
+                      </div>
+                      <div class="input-wrap">
+                        <span class="input-prefix input-prefix--teal" aria-hidden="true">2.</span>
+                        <textarea class="input input--area" rows="3" readonly>
+回复工作邮件时先列要点再写，减少来回修改。</textarea>
+                        <span class="input-reset input-reset--static" aria-hidden="true">
+                          <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path
+                              d="M12 4a8 8 0 1 1-5.66 2.34"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                            />
+                            <path
+                              d="M8.5 2.8 5 6.3l4.2.1"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                        </span>
+                      </div>
+                    </div>
+                  </section>
+
+                  <section class="block">
+                    <h2 class="block__title block__title--violet">
+                      <span class="block__toggle" aria-hidden="true"><span class="block__dot"></span></span>
+                      <span class="block__title-text block__title-text--gratitude">
+                        <span class="block__count block__count--violet">1</span>句对自己的肯定
+                      </span>
+                    </h2>
+                    <div class="block__list">
+                      <div class="input-wrap">
+                        <span class="input-prefix input-prefix--rose" aria-hidden="true">1.</span>
+                        <textarea class="input input--area" rows="3" readonly>
+我是最棒的，因为我在认真对待每一天的小进步。</textarea>
+                        <span class="input-reset input-reset--static" aria-hidden="true">
+                          <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path
+                              d="M12 4a8 8 0 1 1-5.66 2.34"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                            />
+                            <path
+                              d="M8.5 2.8 5 6.3l4.2.1"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                        </span>
+                      </div>
+                    </div>
+                  </section>
+
+                  <div class="actions">
+                    <button type="button" class="btn btn--soft" tabindex="-1">
+                      <svg class="btn__icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                        <path
+                          fill="currentColor"
+                          d="M19 9l1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25L19 9zm-7.5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12l-5.5-2.5zM19 15l-1.25 2.75L15 19l2.75 1.25L19 23l1.25-2.75L23 19l-2.75-1.25L19 15z"
+                        />
+                      </svg>
+                      <span>Generate</span>
+                    </button>
+                    <button type="button" class="btn btn--primary" tabindex="-1">Add to calendar</button>
+                  </div>
+                </section>
+              </div>
+
+              <nav class="tab" aria-label="主导航">
+                <span class="tab__item tab__link tab__item--active">写日记</span>
+                <span class="tab__item tab__link">日历</span>
+                <span class="tab__item tab__link">AI 聊天</span>
+              </nav>
+              <div class="home-bar" aria-hidden="true"></div>
+            </main>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

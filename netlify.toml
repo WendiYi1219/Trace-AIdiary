@@ -1,0 +1,3 @@
+# Netlify：拖拽部署或连接 Git 时使用；发布目录为仓库根目录
+[build]
+  publish = "."
