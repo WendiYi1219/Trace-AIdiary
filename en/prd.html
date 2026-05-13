@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="zh-Hans">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Trace 产品展示：作品集、PRD、技术方案、前端设计说明与产品讲解视频。创作者易文迪 Wendi。"
+      content="Trace - Case Study: portfolio, PRD, technical approach, frontend design notes, and product walkthrough video. Created by Wendi Yi."
     />
     <meta name="theme-color" content="#fcf4ed" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Trace 产品展示与 PRD | 易文迪 Wendi" />
+    <meta property="og:title" content="Trace · AI Diary · Case Study | Wendi Yi" />
     <meta
       property="og:description"
-      content="Trace AI 日记应用 — 产品需求文档、设计稿与实现说明，含可跳转章节与演示视频。"
+      content="Trace AI Diary - PRD, design specs, and implementation notes, with anchored sections and demo video."
     />
-    <title>Trace · AI 日记 产品· 易文迪 Wendi</title>
+    <title>Trace · AI Diary Product · Wendi Yi</title>
     <style>
       :root {
         --bg: #fff8f2;
@@ -22,7 +22,6 @@
         --text: #1f2937;
         --muted: #6b7280;
         --accent: #f08a2d;
-        /* 橙色从左向右渐隐（横线、编号、标签共用色相） */
         --accent-line-fade: linear-gradient(
           90deg,
           rgb(240, 138, 45) 0%,
@@ -45,9 +44,7 @@
         --timeline-stroke: 2px;
         --timeline-head-bg: #ffffff;
         --timeline-arrow: #988272;
-        /* 粘性顶栏占位：锚点跳转时留出高度，避免标题被顶栏挡住 */
         --anchor-scroll-padding-top: calc(8px + 80px + 16px);
-        /* PRD Hero 太阳+文案列（与右侧大图对比易显小，可调这三项放大） */
         --hero-sun-size: 228px;
         --hero-sun-column-nudge: -400px;
         --hero-sun-column-offset-top: 64px;
@@ -61,7 +58,7 @@
       }
       body {
         margin: 0;
-        font-family: "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", "PingFang SC", "Noto Sans SC", sans-serif;
         color: var(--text);
         background: #fcf4ed;
       }
@@ -109,14 +106,12 @@
         margin-top: 22px;
         min-width: 0;
       }
-      /* Hero 展示条（单张合成图） */
       .hero-showcase-scroll {
         width: 100%;
         max-width: 100%;
         min-width: 0;
         overflow: visible;
       }
-      /* 太阳 + 合成图一组，整体贴右 */
       .hero-showcase-row {
         display: flex;
         flex-wrap: nowrap;
@@ -135,7 +130,6 @@
         min-width: 0;
         max-width: 100%;
       }
-      /* 列宽 = 文案宽度，太阳在列内水平居中，与下方正文同一竖向中线 */
       .hero-showcase-sun-column {
         display: flex;
         flex-direction: column;
@@ -157,7 +151,6 @@
         width: 100%;
         text-align: center;
       }
-      /* 与 AI 页同款 sun-canvas：input-wrap--sun-active 时持续渲染 */
       .hero-showcase-sun {
         position: relative;
         flex: 0 0 auto;
@@ -193,7 +186,6 @@
         max-width: min(100%, 920px);
         min-width: 0;
       }
-      /* 与卡片左右内边距对齐拉满，紧邻照片下沿 */
       .hero-demo-divider {
         width: calc(100% + 48px);
         margin: 0 -24px 20px;
@@ -205,7 +197,6 @@
         width: 100%;
         height: auto;
       }
-      /* 与太阳下说明文案同款字色、字号（hero-showcase-lead） */
       .hero-video-heading {
         margin: 0 auto 14px;
         padding: 0;
@@ -224,7 +215,6 @@
         vertical-align: 0.08em;
         opacity: 0.92;
       }
-      /* 解码失败时 video 没有固有高度会塌成扁条；用 16:9 占位（横屏 Demo） */
       .hero-video {
         position: relative;
         margin: 0 auto;
@@ -247,7 +237,6 @@
       }
       h1 { margin: 0 0 10px; font-size: 34px; line-height: 1.2; }
       .subtitle { margin: 0 0 18px; color: var(--muted); font-size: 15px; }
-      /* 覆盖全局 .subtitle 下边距（文字已移到太阳下方） */
       #implementation-demo .hero-showcase-lead.subtitle {
         margin: 0;
       }
@@ -278,7 +267,6 @@
         grid-template-columns: repeat(12, minmax(0, 1fr));
         gap: 16px;
       }
-      /* 四大结构时间轴：左侧竖线 + 顶部实心圆点 */
       .timeline-section {
         position: relative;
         padding-left: 34px;
@@ -293,7 +281,6 @@
         background: var(--timeline-rail);
         z-index: 1;
       }
-      /* 竖线底部小横杠，对齐竖线中心 */
       .timeline-section::after {
         content: "";
         position: absolute;
@@ -350,7 +337,6 @@
         position: relative;
         overflow: visible;
       }
-      /* 时间轴四个大标题条：白底，与其余卡片一致 */
       .timeline-section > .card.section-head {
         background: var(--timeline-head-bg);
         border: 1px solid var(--line);
@@ -365,7 +351,6 @@
       .timeline-section > .card.section-head .subtitle {
         color: var(--muted);
       }
-      /* 展开：标题区底横线 — 橙色左→右渐隐（伪元素，便于渐变） */
       .timeline-section:not(.timeline-collapsed) > .card.section-head > h2 {
         position: relative;
         padding-bottom: 12px;
@@ -405,7 +390,6 @@
         background: var(--accent-line-fade);
         border-radius: 1px;
       }
-      /* 标题卡内只有主标题、正文在下一张卡片时不再画 h2 底横线（如「2. 产品需求文档」） */
       .timeline-section:not(.timeline-collapsed) > .card.section-head > h2:last-child {
         padding-bottom: 0;
         margin-bottom: 10px;
@@ -416,7 +400,6 @@
       .timeline-section:not(.timeline-collapsed) > .card.section-head .inspiration-card {
         margin: 16px -20px -20px;
       }
-      /* 三角为暖赭；竖线/底横杠为浅冷灰。展开仅旋转三角 */
       .timeline-section:not(.timeline-collapsed) .timeline-toggle::before {
         transform: rotate(90deg);
       }
@@ -443,7 +426,6 @@
         margin-right: 8px;
         font-weight: 700;
       }
-      /* PRD 分节标题（（1）…（8））：常规字重、略小一号 */
       :is(#prd-writing, #frontend-design) article.card > h2:has(.num) {
         position: relative;
         font-size: 18px;
@@ -476,7 +458,6 @@
         color: #b45309;
         font-size: 13px;
       }
-      /* —— PRD 正文层级：次级标题左侧橙条 + 分隔线（无整条灰竖线） —— */
       :is(#prd-writing, #frontend-design) article.card > .prd-sheet {
         margin-top: 6px;
       }
@@ -493,7 +474,6 @@
       :is(#prd-writing, #frontend-design) article.card > .prd-sheet > .prd-h3:first-child {
         margin-top: 0;
       }
-      /* （3）核心功能：模块级标题橙条略淡，与导图色调一致 */
       #prd-writing article#prd-3.card > .prd-sheet > .prd-h3 {
         border-left: 3px solid rgba(232, 159, 94, 0.45);
         color: #cf7a28;
@@ -524,8 +504,6 @@
       :is(#prd-writing, #frontend-design) article.card > .prd-sheet > ol > li + li {
         margin-top: 8px;
       }
-
-      /* （6）技术方案 · 后端模型路由表 */
       :is(#prd-writing, #frontend-design) article.card > .prd-sheet table.prd-route-table {
         width: 100%;
         margin: 12px 0 0;
@@ -578,8 +556,6 @@
         line-height: 1.6;
         color: var(--muted);
       }
-
-      /* （8）边界情况 · 两列表 */
       :is(#prd-writing, #frontend-design) article.card > .prd-sheet table.prd-boundary-table {
         width: 100%;
         margin: 6px 0 0;
@@ -609,13 +585,9 @@
       :is(#prd-writing, #frontend-design) article.card > .prd-sheet table.prd-boundary-table td code {
         font-size: 12px;
       }
-
-      /* 导语后第一大段：收窄与次级 prd-h3 的留白 */
       :is(#prd-writing, #frontend-design) article.card > .prd-sheet > .prd-lead + .prd-h3 {
         margin-top: 12px;
       }
-
-      /* （3）核心功能 · 结构思维导图（仅模块与子项标题，不含描述/实现/流程） */
       #prd-writing article#prd-3.card .prd-mindmap-wrap {
         margin: 0 0 18px;
         padding: 4px 0 8px;
@@ -635,8 +607,6 @@
           min-width: 480px;
         }
       }
-
-      /* 核心功能 · 四级标题：（1）… 不用左侧竖条，改为淡色渐变条 + 圆角区别于模块级 prd-h3 */
       #prd-writing article#prd-3.card .prd-sheet .prd-block {
         padding-left: 18px;
       }
@@ -680,7 +650,6 @@
       :is(#prd-writing, #frontend-design) article.card .prd-detail-ul li:first-child {
         margin-top: 0;
       }
-      /* （4）用户旅程：三列并排 · 每列低保真图在下接该界面步骤列表 */
       .prd-journey-tri {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -715,7 +684,6 @@
       #prd-writing #prd-4 .prd-journey-col .prd-journey-steps li + li {
         margin-top: 8px;
       }
-      /* 外圈不要「白底+阴影卡」；手机框线保留在 SVG 内 */
       #prd-writing #prd-4 .prd-journey-fig {
         margin: 0;
         padding: 0;
@@ -794,14 +762,12 @@
       .prd-diary-media > figure:nth-child(2) {
         margin-left: 12px;
       }
-      /* （1）写日记：中间静态参考图再往右贴近右侧录屏一侧 */
       #fe-design-diary .prd-diary-media > figure:nth-child(2) {
         margin-left: 36px;
       }
       .prd-diary-media > figure.prd-frontend-bg-fig:last-of-type {
         margin-left: auto;
       }
-      /* （3）AI 聊天：两列均分铺满内容区（去掉末列 auto 推开造成的大块空白） */
       #fe-design-ai .prd-diary-media {
         width: 100%;
       }
@@ -814,14 +780,12 @@
         width: 338px;
         max-width: 338px;
       }
-      /* 左列 Frame 137 占满剩余宽度；右列视频与日历模块同宽 338px */
       #fe-design-ai .prd-diary-media figure.prd-frontend-bg-fig:first-of-type {
         flex: 1 1 0;
         min-width: 0;
         width: auto;
         max-width: none;
       }
-      /* Frame 137：略向左偏移；画布比例与原 728×768 导出一致，换 691×768 资源时也保持同一占位高度 */
       #fe-design-ai .prd-ai-chat-frame-137-fig {
         overflow: visible;
         margin-left: -44px;
@@ -863,7 +827,6 @@
         display: flex;
         justify-content: center;
       }
-      /* 日历中间 Frame 134：宽约 500px，负边距拉近左栏 */
       #fe-design-calendar .prd-calendar-frame-134-fig {
         width: 500px;
         max-width: 500px;
@@ -910,7 +873,6 @@
         box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
       }
       .inspiration-card {
-        /* 吃满 section 卡片宽度，去掉四周白边视觉 */
         margin: 8px -20px -20px;
         padding: 0;
         border: 0;
@@ -964,20 +926,20 @@
   <body>
     <main class="wrap">
       <div class="topbar">
-        <div class="brand">产品展示页｜易文迪 Wendi</div>
-        <nav class="nav" aria-label="页面目录">
-          <a href="#implementation-demo">产品视频</a>
-          <a href="#inspiration-research">产品灵感与调研</a>
-          <a href="#prd-writing">产品需求文档（PRD）</a>
-          <a href="#frontend-design">前端设计</a>
-          <a href="./en/prd.html" class="lang-switch" lang="en" title="English version">EN</a>
+        <div class="brand">Case Study | Wendi Yi</div>
+        <nav class="nav" aria-label="Page navigation">
+          <a href="#implementation-demo">Walkthrough Video</a>
+          <a href="#inspiration-research">Inspiration & Research</a>
+          <a href="#prd-writing">PRD</a>
+          <a href="#frontend-design">Frontend Design</a>
+          <a href="../prd.html" class="lang-switch" lang="zh" title="中文版本">中文</a>
         </nav>
       </div>
 
       <header id="overview" class="hero">
         <div class="hero__headline-row">
-          <h1>Trace - AI 日记应用</h1>
-          <a class="btn btn--primary" href="./index.html" target="_blank" rel="noopener noreferrer">打开产品demo</a>
+          <h1>Trace - AI Diary App</h1>
+          <a class="btn btn--primary" href="../index.html" target="_blank" rel="noopener noreferrer">Open Product Demo</a>
         </div>
         <div id="implementation-demo" class="hero-demo-stack">
           <div class="hero-showcase-scroll">
@@ -991,7 +953,7 @@
                   <canvas class="input-sun" width="200" height="200" aria-hidden="true"></canvas>
                   <img
                     class="hero-showcase-sun-overlay"
-                    src="assets/frame-121.svg"
+                    src="../assets/frame-121.svg"
                     alt=""
                     aria-hidden="true"
                     loading="eager"
@@ -999,13 +961,13 @@
                   />
                 </div>
                 <p class="subtitle hero-showcase-lead">
-                  Trace是一款基于正向心理学的AI日记应用，将用户的日常记录转化为持续的自我认知系统，帮助用户实现自我成长与情绪疗愈。
+                  Trace is an AI diary app grounded in Positive Psychology. It turns daily reflection into a continuous self-awareness system, supporting personal growth and emotional repair.
                 </p>
               </div>
               <figure class="hero-showcase-composite">
                 <img
-                  src="assets/hero-showcase-phone-collage.svg"
-                  alt="Trace 应用界面：手持手机与功能拼图展示"
+                  src="../assets/hero-showcase-phone-collage.svg"
+                  alt="Trace UI: phone-in-hand and feature collage"
                   width="700"
                   height="521"
                   loading="lazy"
@@ -1016,7 +978,7 @@
           </div>
           </div>
           <hr class="hero-demo-divider" />
-          <p class="hero-video-heading">Trace产品讲解视频</p>
+          <p class="hero-video-heading">Trace product walkthrough video</p>
           <div class="hero-video">
             <video
               id="hero-demo-video"
@@ -1026,10 +988,10 @@
               preload="metadata"
               width="1920"
               height="1080"
-              aria-label="Trace AI 日记 Demo 演示视频"
+              aria-label="Trace AI Diary demo video"
             >
-              <source src="assets/trace-ai-diary-demo.mp4" type="video/mp4" />
-              <source src="assets/trace-ai-diary-demo.mov" type="video/quicktime" />
+              <source src="../assets/trace-ai-diary-demo.mp4" type="video/mp4" />
+              <source src="../assets/trace-ai-diary-demo.mov" type="video/quicktime" />
             </video>
           </div>
         </div>
@@ -1037,75 +999,75 @@
 
       <section id="inspiration-research" class="grid timeline-section">
         <article class="card full section-head">
-          <button type="button" class="timeline-toggle" aria-label="折叠或展开 产品灵感与调研" aria-expanded="true"></button>
-          <h2>1. 产品灵感与调研</h2>
+          <button type="button" class="timeline-toggle" aria-label="Collapse or expand Inspiration & Research" aria-expanded="true"></button>
+          <h2>1. Inspiration & Research</h2>
           <div class="inspiration-card">
-            <img class="inspiration-image" src="assets/Frame 8.svg" alt="产品灵感原稿（Frame 8）" />
-            <img class="inspiration-image" src="assets/Frame 2.svg" alt="产品灵感补充页（Frame 2）" />
-            <img class="inspiration-image" src="assets/Frame 3.svg" alt="产品灵感补充页（Frame 3）" />
+            <img class="inspiration-image" src="../assets/Frame 8.svg" alt="Inspiration draft (Frame 8)" />
+            <img class="inspiration-image" src="../assets/Frame 2.svg" alt="Supplementary inspiration page (Frame 2)" />
+            <img class="inspiration-image" src="../assets/Frame 3.svg" alt="Supplementary inspiration page (Frame 3)" />
           </div>
         </article>
       </section>
 
       <section id="prd-writing" class="grid timeline-section">
         <article class="card full section-head">
-          <button type="button" class="timeline-toggle" aria-label="折叠或展开 产品需求文档 (PRD)" aria-expanded="true"></button>
-          <h2>2. 产品需求文档 (PRD)</h2>
+          <button type="button" class="timeline-toggle" aria-label="Collapse or expand Product Requirements Document" aria-expanded="true"></button>
+          <h2>2. Product Requirements Document (PRD)</h2>
         </article>
 
         <article id="prd-1" class="card full">
-          <h2><span class="num">（1）</span>产品背景</h2>
+          <h2><span class="num">(1)</span>Background</h2>
           <div class="prd-sheet">
-          <h3 class="prd-h3">产品痛点</h3>
+          <h3 class="prd-h3">Pain Points</h3>
           <p>
-            情绪管理是高频、真实却常被忽视的日常需求。在高压环境下（留学、申请季、季节性抑郁高发期），用户往往会经历情绪低谷——但单靠意志力硬扛是不可持续的，用户需要一个可以长期依赖的外部调节工具。
+            Emotional regulation is a frequent, real, yet often overlooked daily need. Under high-pressure conditions (studying abroad, application season, seasonal depression peaks), users often hit emotional lows—and white-knuckling through them with willpower alone isn't sustainable. Users need a long-term external regulation tool they can rely on.
           </p>
-          <p style="margin: 0 0 8px; font-weight: 600; font-size: 14px">具体痛点包括：</p>
+          <p style="margin: 0 0 8px; font-weight: 600; font-size: 14px">Specific pain points include:</p>
           <ul>
-            <li>情绪低谷时难以客观看待自身状态，容易陷入负面循环，无法主动识别支撑自己的积极资源。</li>
-            <li>每次低谷都在从零开始，缺少可复用的情绪复原路径。</li>
-            <li>记录了情绪，但没有机制帮助用户回望和巩固积极体验，导致正向记忆容易被遗忘。</li>
-            <li>情绪起伏大时，很难单靠回忆客观评估「这段时间自己其实做到了什么」。</li>
+            <li>It's hard to view yourself objectively during emotional lows; you fall into negative loops, unable to actively recognize the positive resources sustaining you.</li>
+            <li>Every low feels like starting from zero, with no reusable recovery path.</li>
+            <li>Emotions get recorded, but there's no mechanism to revisit and reinforce positive experiences—so positive memories fade easily.</li>
+            <li>When emotions fluctuate, it's hard to objectively assess "what you actually accomplished during this period" from memory alone.</li>
           </ul>
 
-          <h3 class="prd-h3">产品目标</h3>
+          <h3 class="prd-h3">Product Goals</h3>
           <p>
-            Trace 的目标不是帮用户「解决」情绪问题，而是提供一套可持续的自我调节系统：
+            Trace's goal isn't to "solve" users' emotional problems—it's to provide a sustainable self-regulation system:
           </p>
           <ul>
-            <li>通过 <strong>3-2-1 结构化框架</strong>，降低每日记录的门槛，同时提升输入的信息质量。</li>
-            <li>通过 <strong>AI 跨时间分析</strong>，帮助用户从积累的记录中提取情绪规律、思维模式与隐藏的积极信号。</li>
-            <li>通过<strong>回看机制</strong>（Lottery Box、AI Analyzer），将过去的积极体验持续强化，形成稳定的心理记忆系统。</li>
-            <li>帮助用户从「情绪的被动承受者」逐渐成为「自我成长的主动观察者」。</li>
+            <li>Use a <strong>3-2-1 Structured Framework</strong> to lower the daily entry threshold while raising input quality.</li>
+            <li>Use <strong>AI Cross-Temporal Analysis</strong> to surface emotional patterns, thought habits, and hidden positive signals from accumulated entries.</li>
+            <li>Use <strong>Lookback Mechanisms</strong> (Lottery Box, AI Analyzer) to continuously reinforce past positive experiences and build a stable psychological memory system.</li>
+            <li>Help users gradually shift from "passive recipient of emotions" to "active observer of their own growth."</li>
           </ul>
           </div>
         </article>
 
         <article id="prd-2" class="card full">
-          <h2><span class="num">（2）</span>目标用户</h2>
+          <h2><span class="num">(2)</span>Target Users</h2>
           <div class="prd-sheet">
-          <h3 class="prd-h3">用户画像</h3>
+          <h3 class="prd-h3">User Personas</h3>
           <ul>
-            <li>学生或职场早期用户，希望以低门槛、低压力的方式坚持自我反思——记录是日常习惯，而不是需要完成的写作任务。</li>
-            <li>对个人隐私敏感，倾向单人使用，数据不对外共享。</li>
-            <li>习惯简短的中文输入，愿意偶尔借助 AI 获得情绪洞察与积极反馈。</li>
+            <li>Students or early-career users who want low-friction, low-pressure self-reflection—where journaling is a daily habit, not a writing assignment to complete.</li>
+            <li>Privacy-sensitive, prefer single-user mode, no data sharing.</li>
+            <li>Used to short-form input, occasionally welcoming AI-generated emotional insights and positive feedback.</li>
           </ul>
-          <h3 class="prd-h3">使用场景</h3>
+          <h3 class="prd-h3">Use Cases</h3>
           <ul>
-            <li><strong>睡前 5–10 分钟</strong>：在日记 Tab 填满三项区块，亦可一键生成当日配图。</li>
-            <li><strong>周末复盘</strong>：在日历 Tab 把多日内容写入「存档」，勾选日期区间做情绪趋势或隐藏积极信号分析。</li>
-            <li><strong>情绪低落时</strong>：翻到 AI Tab 继续追问，或对某段分析结果进行二次对话。</li>
+            <li><strong>Pre-sleep 5–10 minutes</strong>: fill in the three sections in the Diary tab, optionally generate today's image with one tap.</li>
+            <li><strong>Weekend reflection</strong>: in the Calendar tab, archive multiple days, select a date range to run Emotion Trend or Hidden Positive Signals analysis.</li>
+            <li><strong>During emotional lows</strong>: switch to the AI tab to ask follow-up questions or have a second-round conversation about an analysis.</li>
           </ul>
           </div>
         </article>
 
         <article id="prd-3" class="card full">
-          <h2><span class="num">（3）</span>核心功能</h2>
+          <h2><span class="num">(3)</span>Core Features</h2>
           <div class="prd-sheet">
           <figure
             class="prd-mindmap-wrap"
             role="img"
-            aria-label="核心功能结构导图：写日记、日历、AI 聊天三大模块、子功能标题及对应界面示意"
+            aria-label="Core features structure mind map: three modules (Diary, Calendar, AI Chat), sub-feature titles, and corresponding interface previews"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -1119,7 +1081,6 @@
                   <feDropShadow dx="0" dy="1" stdDeviation="1.5" flood-opacity="0.08" />
                 </filter>
               </defs>
-              <!-- 主干 -->
               <path
                 d="M 390 52 L 390 74 M 390 74 L 128 74 M 390 74 L 390 88 M 390 74 L 652 74 M 128 74 L 128 98 M 390 74 L 390 98 M 652 74 L 652 98"
                 stroke="#cbd5e1"
@@ -1127,7 +1088,6 @@
                 stroke-linecap="round"
                 stroke-linejoin="round"
               />
-              <!-- 根：核心功能（淡橘底 + 深字便于阅读） -->
               <rect
                 x="312"
                 y="10"
@@ -1146,11 +1106,10 @@
                 fill="#7c3812"
                 font-size="15"
                 font-weight="700"
-                font-family="PingFang SC, Noto Sans SC, Microsoft YaHei, sans-serif"
+                font-family="Inter, -apple-system, sans-serif"
               >
-                核心功能
+                Core Features
               </text>
-              <!-- 三大模块（更淡一档） -->
               <rect x="58" y="98" width="140" height="36" rx="10" fill="#fff5ea" stroke="#e5d9c9" stroke-width="1.5" />
               <text
                 x="128"
@@ -1159,9 +1118,9 @@
                 fill="#78350f"
                 font-size="14"
                 font-weight="700"
-                font-family="PingFang SC, Noto Sans SC, Microsoft YaHei, sans-serif"
+                font-family="Inter, -apple-system, sans-serif"
               >
-                写日记
+                Diary
               </text>
               <rect x="317" y="98" height="36" rx="10" fill="#fff5ea" stroke="#e5d9c9" stroke-width="1.5" width="156" />
               <text
@@ -1171,9 +1130,9 @@
                 fill="#78350f"
                 font-size="14"
                 font-weight="700"
-                font-family="PingFang SC, Noto Sans SC, Microsoft YaHei, sans-serif"
+                font-family="Inter, -apple-system, sans-serif"
               >
-                日历
+                Calendar
               </text>
               <rect x="582" y="98" width="140" height="36" rx="10" fill="#fff5ea" stroke="#e5d9c9" stroke-width="1.5" />
               <text
@@ -1183,11 +1142,10 @@
                 fill="#78350f"
                 font-size="14"
                 font-weight="700"
-                font-family="PingFang SC, Noto Sans SC, Microsoft YaHei, sans-serif"
+                font-family="Inter, -apple-system, sans-serif"
               >
-                AI 聊天
+                AI Chat
               </text>
-              <!-- 写日记 → 子项：文案相对模块竖直中线（128）居中 -->
               <path
                 d="M 128 134 L 128 154 M 88 154 L 168 154 M 88 154 L 88 170 M 168 154 L 168 170"
                 stroke="#d1d5db"
@@ -1199,12 +1157,11 @@
                 fill="#374151"
                 font-size="12"
                 font-weight="600"
-                font-family="PingFang SC, Noto Sans SC, Microsoft YaHei, sans-serif"
+                font-family="Inter, -apple-system, sans-serif"
               >
-                <tspan x="128" y="190">（1）结构化日记书写</tspan>
-                <tspan x="128" y="210">（2）今日 AI 插图</tspan>
+                <tspan x="128" y="190">(1) Structured Journaling</tspan>
+                <tspan x="128" y="210">(2) Daily AI Illustration</tspan>
               </text>
-              <!-- 日历 → 子项：相对中线（395）居中 -->
               <path
                 d="M 395 134 L 395 154 M 355 154 L 435 154 M 355 154 L 355 170 M 435 154 L 435 170"
                 stroke="#d1d5db"
@@ -1216,13 +1173,12 @@
                 fill="#374151"
                 font-size="12"
                 font-weight="600"
-                font-family="PingFang SC, Noto Sans SC, Microsoft YaHei, sans-serif"
+                font-family="Inter, -apple-system, sans-serif"
               >
-                <tspan x="395" y="190">（1）日历存档</tspan>
-                <tspan x="395" y="210">（2）每日刮刮乐</tspan>
-                <tspan x="395" y="230">（3）区间 AI 分析</tspan>
+                <tspan x="395" y="190">(1) Calendar Archive</tspan>
+                <tspan x="395" y="210">(2) Daily Scratch Card</tspan>
+                <tspan x="395" y="230">(3) Range AI Analysis</tspan>
               </text>
-              <!-- AI 聊天：相对中线（652）居中 -->
               <path d="M 652 134 L 652 168" stroke="#d1d5db" stroke-width="1.75" stroke-linecap="round" />
               <text
                 x="652"
@@ -1231,13 +1187,12 @@
                 fill="#374151"
                 font-size="12"
                 font-weight="600"
-                font-family="PingFang SC, Noto Sans SC, Microsoft YaHei, sans-serif"
+                font-family="Inter, -apple-system, sans-serif"
               >
-                自由追问 · 会话补全
+                Open follow-up · Conversational
               </text>
-              <!-- 三列界面低保真示意：与写日记 / 日历 / AI 聊天一一对应（与（4）用户旅程同源素材） -->
               <image
-                href="assets/journey-1-diary.svg"
+                href="../assets/journey-1-diary.svg"
                 x="53"
                 y="244"
                 width="150"
@@ -1245,7 +1200,7 @@
                 preserveAspectRatio="xMidYMid meet"
               />
               <image
-                href="assets/journey-2-calendar.svg"
+                href="../assets/journey-2-calendar.svg"
                 x="320"
                 y="244"
                 width="150"
@@ -1253,7 +1208,7 @@
                 preserveAspectRatio="xMidYMid meet"
               />
               <image
-                href="assets/journey-3-ai-chat.svg"
+                href="../assets/journey-3-ai-chat.svg"
                 x="577"
                 y="244"
                 width="150"
@@ -1263,89 +1218,88 @@
             </svg>
           </figure>
 
-          <h3 class="prd-h3">写日记</h3>
+          <h3 class="prd-h3">Diary</h3>
           <div class="prd-block">
-            <h4 class="prd-h4"><span class="prd-h4__num">（1）</span>结构化日记书写</h4>
+            <h4 class="prd-h4"><span class="prd-h4__num">(1)</span>Structured Journaling</h4>
             <ul class="prd-detail-ul">
               <li>
-                <strong>描述：</strong>将一日记录拆成可折叠的三段：3 件感恩的事情、2 个可以改进的空间、1 句自我肯定。
+                <strong>Description:</strong> Splits a day's entry into three foldable sections: 3 things to be grateful for, 2 areas for improvement, 1 self-affirmation.
               </li>
               <li>
-                <strong>实现方式：</strong>纯前端表单、区块折叠与标题快捷操作；草稿与按日存档写入 <strong>localStorage</strong>；输入区附带装饰性太阳动画。
+                <strong>Implementation:</strong> Pure frontend form with foldable sections and header shortcuts; drafts and per-day archives stored in <strong>localStorage</strong>; decorative sun animation in the input area.
               </li>
               <li>
-                <strong>操作流程：</strong>写日记 Tab → 展开各区块 → 填写 → 「保存到日历」→ 生成今日 AI 插图或切换到其它 Tab。
+                <strong>Flow:</strong> Diary tab → expand sections → fill in → "Save to Calendar" → generate today's AI illustration or switch tabs.
               </li>
             </ul>
           </div>
           <div class="prd-block">
-            <h4 class="prd-h4"><span class="prd-h4__num">（2）</span>今日 AI 插图（感恩 → 意象图）</h4>
+            <h4 class="prd-h4"><span class="prd-h4__num">(2)</span>Daily AI Illustration (Gratitude → Imagery)</h4>
             <ul class="prd-detail-ul">
               <li>
-                <strong>描述：</strong>从已填日记的条目中抽样一条作为提示，生成一张插画，强化「今日痕迹」的体验。
+                <strong>Description:</strong> Samples one entry from the filled diary as a prompt to generate an illustration, reinforcing the experience of "today's trace."
               </li>
               <li>
-                <strong>实现方式：</strong>用户点击生成按钮后，前端向服务端发送请求；服务端调用 Google Gemini 图像模型生成图片，并返回可直接展示的图片链接；前端拿到链接后显示图片，同时激活下载选择。
+                <strong>Implementation:</strong> User clicks generate; frontend sends a request to the server; server calls Google Gemini's image model and returns a displayable image URL; frontend renders the image and enables download options.
               </li>
-              <li><strong>操作流程：</strong>至少填写一条感恩 → 点击生成 → 等待态展示 → 出图。</li>
-            </ul>
-          </div>
-
-          <h3 class="prd-h3">日历</h3>
-          <div class="prd-block">
-            <h4 class="prd-h4"><span class="prd-h4__num">（1）</span>日历存档</h4>
-            <ul class="prd-detail-ul">
-              <li>
-                <strong>描述：</strong>按月份格子查看哪些天有存档的日记内容，可从格子进入单日日记摘要或每日插图。
-              </li>
-              <li>
-                <strong>实现方式：</strong>月历 DOM + 存档 JSON；部分演示日用预设图片映射；支持与日记表单之间的读写同步。
-              </li>
-              <li><strong>操作流程：</strong>日历 Tab → 点击分析，选择分析 → 点选日期 → 查看分析。</li>
-            </ul>
-          </div>
-          <div class="prd-block">
-            <h4 class="prd-h4"><span class="prd-h4__num">（2）</span>每日刮刮乐</h4>
-            <ul class="prd-detail-ul">
-              <li>
-                <strong>描述：</strong>在日历视图中刮开刮刮乐 UI 的图层，显示一句由随机日记内容提炼的短句，可溯源到原始日记条目。
-              </li>
-              <li>
-                <strong>实现方式：</strong>Canvas 刮层 + <code>POST /api/scratch-summary</code>（Gemini 文本）；溯源弹窗展示对应日记片段。
-              </li>
-              <li>
-                <strong>操作流程：</strong>在刮刮区域滑动 → 露出文案 → 可选「查看日记源」跳转模态框。
-              </li>
-            </ul>
-          </div>
-          <div class="prd-block">
-            <h4 class="prd-h4"><span class="prd-h4__num">（3）</span>区间 AI 分析（情绪趋势 + 隐藏积极信号）</h4>
-            <ul class="prd-detail-ul">
-              <li>
-                <strong>描述：</strong>用户自选连续日期，可选两类分析：情绪得分曲线、从「改进 + 肯定」文本中提炼积极视角的长解读。
-              </li>
-              <li>
-                <strong>实现方式：</strong>用户在向导式弹窗（Modal）里选择日期范围和分析类型，点击生成后，前端分别向
-                <code>/api/emotion-trend</code> 与 <code>/api/hidden-positive-signals</code> 发起 <strong>POST</strong>
-                请求。服务端接收请求后调用 LLM 进行分析：情绪趋势返回按日打分的序列（每天一个 1–10 的分数），隐藏积极信号返回一段长文本洞察。两个功能均优先调用 Claude（需配置 Anthropic API
-                Key），未配置或调用失败时自动降级使用 Gemini。分析结果以会话卡片的形式写入 AI 聊天 Tab 展示。
-              </li>
-              <li>
-                <strong>操作流程：</strong>打开分析 → 选日 → 勾选分析类型 → 运行 → 自动切到 AI 聊天 Tab 浏览图表或者文案。
-              </li>
+              <li><strong>Flow:</strong> Fill at least one gratitude entry → click generate → loading state → image returns.</li>
             </ul>
           </div>
 
-          <h3 class="prd-h3">AI 聊天</h3>
+          <h3 class="prd-h3">Calendar</h3>
           <div class="prd-block">
+            <h4 class="prd-h4"><span class="prd-h4__num">(1)</span>Calendar Archive</h4>
             <ul class="prd-detail-ul">
-              <li><strong>描述：</strong>在分析结果之余，保留自由追问入口，与同一后端的会话式补全衔接。</li>
               <li>
-                <strong>实现方式：</strong><code>POST /api/chat</code>；当前服务端使用 Gemini 文本模型整段生成回复（需在环境变量中配置
-                <code>GEMINI_API_KEY</code>）。
+                <strong>Description:</strong> View which days have archived diary content via a monthly grid; click a cell to enter the daily summary or daily illustration.
               </li>
               <li>
-                <strong>操作流程：</strong>切换到 AI Tab → 输入追问 → 等待整段回复展示（当前实现为非流式 JSON）。
+                <strong>Implementation:</strong> Monthly calendar DOM + archive JSON; some demo days mapped to preset images; supports read/write sync with the diary form.
+              </li>
+              <li><strong>Flow:</strong> Calendar tab → click Analyze → choose analysis type → select dates → view results.</li>
+            </ul>
+          </div>
+          <div class="prd-block">
+            <h4 class="prd-h4"><span class="prd-h4__num">(2)</span>Daily Scratch Card</h4>
+            <ul class="prd-detail-ul">
+              <li>
+                <strong>Description:</strong> In Calendar view, scratch off the UI overlay to reveal a short sentence distilled from a random diary entry, traceable back to the source.
+              </li>
+              <li>
+                <strong>Implementation:</strong> Canvas scratch layer + <code>POST /api/scratch-summary</code> (Gemini text); a source modal shows the corresponding diary fragment.
+              </li>
+              <li>
+                <strong>Flow:</strong> Swipe to scratch → reveal copy → optional "View Diary Source" opens modal.
+              </li>
+            </ul>
+          </div>
+          <div class="prd-block">
+            <h4 class="prd-h4"><span class="prd-h4__num">(3)</span>Range AI Analysis (Emotion Trend + Hidden Positive Signals)</h4>
+            <ul class="prd-detail-ul">
+              <li>
+                <strong>Description:</strong> User selects a continuous date range and chooses between two analyses: an emotion score curve, or a long-form positive interpretation extracted from the "Improvement + Affirmation" text.
+              </li>
+              <li>
+                <strong>Implementation:</strong> The user selects a date range and analysis type via a wizard modal. On submit, the frontend sends <strong>POST</strong> requests to
+                <code>/api/emotion-trend</code> and <code>/api/hidden-positive-signals</code> respectively. The server calls LLMs: Emotion Trend returns a sequence of 1–10 daily scores; Hidden Positive Signals returns a long-form text insight. Both prefer Claude (requires Anthropic API
+                Key); on failure or missing key, automatically falls back to Gemini. Results display as conversation cards in the AI Chat tab.
+              </li>
+              <li>
+                <strong>Flow:</strong> Open analysis → select dates → check analysis types → run → auto-switch to AI Chat tab to view chart or text.
+              </li>
+            </ul>
+          </div>
+
+          <h3 class="prd-h3">AI Chat</h3>
+          <div class="prd-block">
+            <ul class="prd-detail-ul">
+              <li><strong>Description:</strong> Beyond analysis results, preserves a free follow-up entry connected to the same backend's conversational completion.</li>
+              <li>
+                <strong>Implementation:</strong> <code>POST /api/chat</code>; the current server uses a Gemini text model for full-message generation (requires
+                <code>GEMINI_API_KEY</code> in env).
+              </li>
+              <li>
+                <strong>Flow:</strong> Switch to AI tab → input question → wait for full reply (current implementation is non-streaming JSON).
               </li>
             </ul>
           </div>
@@ -1353,65 +1307,65 @@
         </article>
 
         <article id="prd-4" class="card full">
-          <h2><span class="num">（4）</span>用户旅程</h2>
+          <h2><span class="num">(4)</span>User Journey</h2>
           <div class="prd-sheet">
-          <p class="prd-lead">每张界面与正下方序号步骤对应；整体设计目标是从首次进入到完成一次「有意义的复盘」。左 → 右：日记｜日历｜AI 聊天。</p>
+          <p class="prd-lead">Each interface corresponds to the numbered steps below; the overall design goal is to go from first entry to a meaningful reflection in one session. Left → right: Diary | Calendar | AI Chat.</p>
           <div
             class="prd-journey-tri"
             role="group"
-            aria-label="三列界面示意与各 Tab 用户旅程步骤"
+            aria-label="Three interface previews with user journey steps for each tab"
           >
-            <section class="prd-journey-col" aria-label="写日记界面与用户旅程">
+            <section class="prd-journey-col" aria-label="Diary interface and user journey">
               <figure class="prd-journey-fig">
                 <img
-                  src="assets/journey-1-diary.svg"
-                  alt="写日记界面示意（Figma Frame 44）：顶部日期信息、主图区、折叠区块与底栏 Tab"
+                  src="../assets/journey-1-diary.svg"
+                  alt="Diary interface preview (Figma Frame 44): top date info, hero area, foldable sections, and bottom tabs"
                   width="150"
                   height="320"
                   loading="lazy"
                   decoding="async"
                 />
-                <figcaption>1 · 写日记</figcaption>
+                <figcaption>1 · Diary</figcaption>
               </figure>
               <ol class="prd-journey-steps">
-                <li>打开 Demo（手机壳框架内的 Web 应用），默认落在日记 Tab。</li>
-                <li>展开三个主题块，按引导填写感恩 / 改进 / 肯定（可先写一部分再收起）。</li>
-                <li>可选：点击生成今日配图，确认 AI 返回值并保存视觉记忆。</li>
+                <li>Open the demo (web app inside a phone-shell frame); lands on the Diary tab by default.</li>
+                <li>Expand the three theme blocks; fill in Gratitude / Improvement / Affirmation per the prompts (can fill partially, then collapse).</li>
+                <li>Optional: click to generate today's image, confirm the AI return value, save the visual memory.</li>
               </ol>
             </section>
-            <section class="prd-journey-col" aria-label="日历界面与用户旅程">
+            <section class="prd-journey-col" aria-label="Calendar interface and user journey">
               <figure class="prd-journey-fig">
                 <img
-                  src="assets/journey-2-calendar.svg"
-                  alt="日历界面示意（Figma Frame 84）：月份导航、网格与内容区"
+                  src="../assets/journey-2-calendar.svg"
+                  alt="Calendar interface preview (Figma Frame 84): month nav, grid, and content area"
                   width="150"
                   height="320"
                   loading="lazy"
                   decoding="async"
                 />
-                <figcaption>2 · 日历</figcaption>
+                <figcaption>2 · Calendar</figcaption>
               </figure>
               <ol class="prd-journey-steps">
-                <li>将当日内容同步到日历存档，使月历上出现可点的记录日。</li>
-                <li>切换日历 Tab：浏览其它日期、点开刮刮卡或缩略内容。</li>
-                <li>在月历触发 AI 分析向导：框选区间 → 勾选「情绪趋势」和/或「隐藏积极信号」→ 发起请求。</li>
+                <li>Sync today's content to the calendar archive so a clickable record day appears.</li>
+                <li>Switch to the Calendar tab: browse other dates, open scratch cards or thumbnail previews.</li>
+                <li>Trigger the AI analysis wizard from the calendar: select a range → check "Emotion Trend" and/or "Hidden Positive Signals" → submit.</li>
               </ol>
             </section>
-            <section class="prd-journey-col" aria-label="AI 聊天界面与用户旅程">
+            <section class="prd-journey-col" aria-label="AI Chat interface and user journey">
               <figure class="prd-journey-fig">
                 <img
-                  src="assets/journey-3-ai-chat.svg"
-                  alt="AI 聊天界面示意（Figma Frame 119）：Echo 会话、输入框；底栏切换到 AI 聊天 Tab"
+                  src="../assets/journey-3-ai-chat.svg"
+                  alt="AI Chat interface preview (Figma Frame 119): Echo conversation, input field; bottom tab on AI Chat"
                   width="150"
                   height="320"
                   loading="lazy"
                   decoding="async"
                 />
-                <figcaption>3 · AI 聊天</figcaption>
+                <figcaption>3 · AI Chat</figcaption>
               </figure>
               <ol class="prd-journey-steps">
-                <li>自动进入 AI Tab：阅读趋势线卡片与解读卡片，按需继续文字对话。</li>
-                <li>带着具体句子或下一个行动设想离开产品（本产品不强制闭环任务系统）。</li>
+                <li>Auto-lands on the AI tab: read the trend chart card and interpretation card, continue the conversation as needed.</li>
+                <li>Leave the product carrying a specific sentence or a next-action thought (the product doesn't enforce a closed-loop task system).</li>
               </ol>
             </section>
           </div>
@@ -1419,158 +1373,158 @@
         </article>
 
         <article id="prd-5" class="card full">
-          <h2><span class="num">（5）</span>界面设计</h2>
+          <h2><span class="num">(5)</span>Interface Design</h2>
           <div class="prd-sheet">
           <p style="margin: 0 0 12px; color: var(--muted); font-size: 13px; line-height: 1.65">
-            本节只写<strong>产品级</strong>视觉与信息架构原则；具体组件实现、状态与工程向取舍见下方时间轴<strong>「3. 前端设计」</strong>，避免两处逐条复述。
+            This section only covers <strong>product-level</strong> visual and information architecture principles. Specific component implementation, states, and engineering trade-offs are in the timeline section <strong>"3. Frontend Design"</strong> below to avoid repetition.
           </p>
-          <h3 class="prd-h3">风格与配色</h3>
+          <h3 class="prd-h3">Style & Color</h3>
           <ul>
-            <li>整体：<strong>暖色弥散渐变 + 轻玻璃拟态</strong>的手机壳容器，情绪化但不过艳。</li>
-            <li>三块日记：<strong>橙 / 薄荷绿 / 粉</strong>系点缀区分主题，条目前缀与勾选态一致。</li>
-            <li>情绪趋势图：<strong>低分蓝 — 中段灰 — 高分橙</strong>分区，线段在跨区间时渐变过渡。</li>
+            <li>Overall: <strong>warm diffuse gradient + light glassmorphism</strong> phone-shell container, emotional but not over-saturated.</li>
+            <li>Three diary blocks: <strong>orange / mint / pink</strong> palettes mark each theme; entry prefixes and check states stay consistent.</li>
+            <li>Emotion trend chart: <strong>low-score blue — mid gray — high-score orange</strong> zones; line gradient interpolates across zone transitions.</li>
           </ul>
-          <h3 class="prd-h3">参考与布局</h3>
+          <h3 class="prd-h3">Reference & Layout</h3>
           <ul>
-            <li>参考：<strong>移动日记类产品</strong>的「单手可完成」信息流 + Headspace/Calm 类柔和梯度背景的思路（非一比一临摹）。</li>
-            <li>布局：<strong>顶部 Tab（日记｜日历｜AI）</strong>切换整页视图；日历内次级模态承载选日与分析向导；日记主列垂直滚动。</li>
+            <li>Reference: <strong>mobile journaling apps</strong> with a single-handed information flow + soft gradient backgrounds inspired by Headspace / Calm (not 1:1 copies).</li>
+            <li>Layout: <strong>top tabs (Diary | Calendar | AI)</strong> switch the full-page view; the calendar's secondary modal carries date selection and analysis wizard; the diary main column scrolls vertically.</li>
           </ul>
           </div>
         </article>
 
         <article id="prd-6" class="card full">
-          <h2><span class="num">（6）</span>技术方案</h2>
+          <h2><span class="num">(6)</span>Technical Approach</h2>
           <div class="prd-sheet">
-          <h3 class="prd-h3">前端</h3>
+          <h3 class="prd-h3">Frontend</h3>
           <ul>
-            <li><strong>页面构建：</strong>HTML + CSS + 原生 JS，无框架，便于作品集直接打开与部署。</li>
+            <li><strong>Page construction:</strong> HTML + CSS + vanilla JS, no framework, so the case study runs by simply opening the file.</li>
             <li>
-              <strong>本地数据管理：</strong>使用 <strong>localStorage</strong> 存储日记草稿、按日存档、刮刮记录，与日历、分析弹窗联动。
+              <strong>Local data management:</strong> uses <strong>localStorage</strong> to store diary drafts, per-day archives, and scratch records, syncing with the calendar and analysis modals.
             </li>
             <li>
-              <strong>图形与动效</strong> — SVG / Canvas 实现情绪曲线与刮刮涂层；太阳动画（<code>sun-canvas.js</code>）基于 Canvas 2D +
-              <code>requestAnimationFrame</code> 逐帧渲染，输入框获焦触发。
+              <strong>Graphics & motion</strong> — SVG / Canvas implements emotion curves and scratch overlays; the sun animation (<code>sun-canvas.js</code>) uses Canvas 2D +
+              <code>requestAnimationFrame</code> frame-by-frame rendering, triggered on input focus.
             </li>
           </ul>
-          <h3 class="prd-h3">后端</h3>
+          <h3 class="prd-h3">Backend</h3>
           <ul>
             <li>
-              <strong>Node.js <code>http</code> 单文件服务：</strong>同源托管静态页 + REST 风格 JSON API；密钥与模型选择均在服务端完成，前端只消费 JSON。
+              <strong>Node.js single-file <code>http</code> service:</strong> hosts static pages from the same origin + REST-style JSON API; key management and model selection happen on the server side; the frontend only consumes JSON.
             </li>
             <li>
-              <p style="margin: 0 0 12px"><strong>AI 模型分配与备用机制：</strong>以下表按能力与接口列出所用模型及备用策略。</p>
+              <p style="margin: 0 0 12px"><strong>AI Model Routing & Fallback Strategy:</strong> the table below lists models used and fallback strategies by capability and endpoint.</p>
               <table class="prd-route-table">
                 <thead>
                   <tr>
-                    <th scope="col">能力</th>
-                    <th scope="col">接口</th>
-                    <th scope="col">优先</th>
-                    <th scope="col">备用 / 说明</th>
+                    <th scope="col">Capability</th>
+                    <th scope="col">Endpoint</th>
+                    <th scope="col">Primary</th>
+                    <th scope="col">Fallback / Notes</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>AI 聊天（自由追问 · 会话补全）</td>
+                    <td>AI Chat (open follow-up · conversational completion)</td>
                     <td><code>/api/chat</code></td>
-                    <td>Gemini（文本链）</td>
+                    <td>Gemini (text chain)</td>
                     <td>—</td>
                   </tr>
                   <tr>
-                    <td>写日记 · （2）今日 AI 插图（感恩 → 意象图）</td>
+                    <td>Diary · (2) Daily AI Illustration (Gratitude → Imagery)</td>
                     <td><code>/api/generate-image</code></td>
-                    <td>Gemini 图像</td>
+                    <td>Gemini Image</td>
                     <td>—</td>
                   </tr>
                   <tr>
-                    <td>日历 · （2）每日刮刮乐</td>
+                    <td>Calendar · (2) Daily Scratch Card</td>
                     <td><code>/api/scratch-summary</code></td>
-                    <td>Gemini（文本链）</td>
+                    <td>Gemini (text chain)</td>
                     <td>—</td>
                   </tr>
                   <tr>
-                    <td>日历 · （3）区间 AI 分析 — 情绪趋势</td>
+                    <td>Calendar · (3) Range AI Analysis — Emotion Trend</td>
                     <td><code>/api/emotion-trend</code></td>
-                    <td>Claude（Anthropic 模型链）</td>
-                    <td>无 Key 或链式失败时用 Gemini；仅 Gemini Key 时直接 Gemini</td>
+                    <td>Claude (Anthropic model chain)</td>
+                    <td>Falls back to Gemini if no key or chain fails; uses Gemini directly when only Gemini key is configured</td>
                   </tr>
                   <tr>
-                    <td>日历 · （3）区间 AI 分析 — 隐藏积极信号</td>
+                    <td>Calendar · (3) Range AI Analysis — Hidden Positive Signals</td>
                     <td><code>/api/hidden-positive-signals</code></td>
-                    <td>Claude 流式</td>
-                    <td>失败则 Gemini 伪流式；再失败则规则化文案</td>
+                    <td>Claude streaming</td>
+                    <td>Falls back to Gemini pseudo-streaming on failure; falls back to rule-based copy on further failure</td>
                   </tr>
                 </tbody>
               </table>
               <p class="prd-route-note">
-                表内「文本链」指多个 Gemini 文本模型<strong>顺序尝试</strong>。限流或瞬时失败时，文本类 Gemini 会先<strong>退避重试</strong>，再在链内换下一模型；这与「Claude → Gemini」的跨厂商 fallback 是不同层级的容错，可叠加生效。
+                "Text chain" means multiple Gemini text models tried <strong>in sequence</strong>. On rate limits or transient failures, Gemini text first applies <strong>backoff retry</strong>, then switches to the next model in the chain; this is a different layer of fault tolerance from the cross-vendor "Claude → Gemini" fallback, and they stack.
               </p>
             </li>
           </ul>
-          <h3 class="prd-h3">第三方服务</h3>
+          <h3 class="prd-h3">Third-Party Services</h3>
           <ul>
-            <li><strong>Google Gemini</strong>：配图生成、日记 Tab 聊天 <code>/api/chat</code>、刮刮摘要；情绪单日打分与隐藏积极信号的兜底路径。</li>
-            <li><strong>Anthropic Claude</strong>：情绪趋势单日打分与隐藏积极信号解读的<strong>优先</strong>路径（需 <code>ANTHROPIC_API_KEY</code>）。</li>
+            <li><strong>Google Gemini</strong>: image generation, Diary tab chat <code>/api/chat</code>, scratch summary; fallback path for daily emotion scoring and hidden positive signals.</li>
+            <li><strong>Anthropic Claude</strong>: <strong>primary</strong> path for emotion trend daily scoring and hidden positive signals interpretation (requires <code>ANTHROPIC_API_KEY</code>).</li>
           </ul>
           <p class="prd-lead" style="margin-top: 12px; margin-bottom: 0">
-            上表已列全量 API 路径；前端对它们均为同源 <code>POST</code>、<code>application/json</code>，与静态页由同一 <code>server.js</code> 进程提供。
+            The table above lists the full API surface; the frontend POSTs to all of them with <code>application/json</code> from the same origin, served by the same <code>server.js</code> process.
           </p>
           </div>
         </article>
 
         <article id="prd-7" class="card half">
-          <h2><span class="num">（7）</span>MVP 范围</h2>
+          <h2><span class="num">(7)</span>MVP Scope</h2>
           <div class="prd-sheet">
-          <h3 class="prd-h3">✅ 第一版包含</h3>
+          <h3 class="prd-h3">✅ V1 Includes</h3>
           <ul>
-            <li>结构化日记三项、折叠块、本地草稿与按日存档。</li>
-            <li>月历浏览、演示日视觉、刮刮卡与溯源。</li>
-            <li>区间分析（情绪趋势图 + 隐藏积极信号）与结果在 AI Tab 的卡片化展示。</li>
-            <li>AI 配图、AI 对话、基础错误提示与「需启动本地 server」说明。</li>
+            <li>Three structured diary sections, foldable blocks, local drafts and per-day archives.</li>
+            <li>Monthly calendar browsing, demo-day visuals, scratch cards with sourcing.</li>
+            <li>Range analysis (Emotion Trend chart + Hidden Positive Signals) with results displayed as cards in the AI tab.</li>
+            <li>AI illustration, AI conversation, basic error prompts, and "requires local server" instructions.</li>
           </ul>
-          <h3 class="prd-h3">❌ 第一版不包含</h3>
+          <h3 class="prd-h3">❌ V1 Excludes</h3>
           <ul>
-            <li>账号注册登录、云端同步、多设备冲突解决。</li>
-            <li>社交分享、协作、公开社区。</li>
-            <li>复杂报表导出、订阅付费、推送提醒。</li>
-            <li>医学级心理评估或危机干预流程（产品定位为自我反思工具，非医疗）。</li>
+            <li>Account registration/login, cloud sync, multi-device conflict resolution.</li>
+            <li>Social sharing, collaboration, public community.</li>
+            <li>Complex report export, subscription payments, push notifications.</li>
+            <li>Medical-grade psychological assessment or crisis intervention (positioned as a self-reflection tool, not medical).</li>
           </ul>
           </div>
         </article>
 
         <article id="prd-8" class="card half">
-          <h2><span class="num">（8）</span>边界情况</h2>
+          <h2><span class="num">(8)</span>Edge Cases</h2>
           <div class="prd-sheet">
           <table class="prd-boundary-table">
             <thead>
               <tr>
-                <th scope="col">边界场景</th>
-                <th scope="col">处理策略</th>
+                <th scope="col">Edge Case</th>
+                <th scope="col">Handling Strategy</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>无感恩即生图</td>
-                <td>前端拦截并提示先填写至少一条感恩内容。</td>
+                <td>Generate image without gratitude</td>
+                <td>Frontend blocks with a prompt to fill at least one gratitude entry first.</td>
               </tr>
               <tr>
-                <td>区间内无存档或字段为空</td>
-                <td>分析接口返回明确 400 文案；隐藏积极信号在缺「改进/肯定」时提示无法分析。</td>
+                <td>No archive in range or empty fields</td>
+                <td>Analysis API returns explicit 400 copy; Hidden Positive Signals shows "cannot analyze" when "Improvement / Affirmation" is missing.</td>
               </tr>
               <tr>
-                <td>API 失败 / 非 JSON / 网络错误</td>
-                <td>状态栏与弹窗说明；引导检查 <code>node server.js</code>、<code>.env</code> 与浏览器是否允许访问本地 API。</td>
+                <td>API failure / non-JSON / network error</td>
+                <td>Status bar and modal explain the issue; guides the user to check <code>node server.js</code>, <code>.env</code>, and whether the browser allows local API access.</td>
               </tr>
               <tr>
-                <td>模型限流或 overload</td>
-                <td>服务端对 Gemini 带退避重试与模型链切换；隐藏积极信号可在模型全失败时使用规则化 fallback 文案。</td>
+                <td>Model rate limit or overload</td>
+                <td>Server-side Gemini backoff retry and model chain switching; Hidden Positive Signals can use rule-based fallback copy when all models fail.</td>
               </tr>
               <tr>
-                <td>情绪分数跨档</td>
-                <td>折线颜色在相邻点之间做渐变，避免硬切视觉断层。</td>
+                <td>Emotion score zone crossing</td>
+                <td>Line color gradient between adjacent points avoids hard visual cuts.</td>
               </tr>
               <tr>
-                <td>localStorage 满或禁用</td>
-                <td>静默失败时已尽量 try/catch；产品级后续应显式降级提示。</td>
+                <td>localStorage full or disabled</td>
+                <td>Currently silently fails with try/catch; product-level next step is an explicit degradation prompt.</td>
               </tr>
             </tbody>
           </table>
@@ -1580,11 +1534,11 @@
 
       <section id="frontend-design" class="grid timeline-section">
         <article class="card full section-head">
-          <button type="button" class="timeline-toggle" aria-label="折叠或展开 前端设计" aria-expanded="true"></button>
-          <h2>3. 前端设计</h2>
+          <button type="button" class="timeline-toggle" aria-label="Collapse or expand Frontend Design" aria-expanded="true"></button>
+          <h2>3. Frontend Design</h2>
         </article>
         <article id="fe-design-diary" class="card full">
-          <h2><span class="num">（1）</span>写日记</h2>
+          <h2><span class="num">(1)</span>Diary</h2>
           <div class="prd-sheet">
             <div class="prd-diary-media">
               <div class="prd-diary-copy-wrap">
@@ -1593,27 +1547,27 @@
                     <object
                       class="prd-diary-lofi-object"
                       type="image/svg+xml"
-                      data="assets/diary-lofi-photo.svg"
+                      data="../assets/diary-lofi-photo.svg"
                       role="img"
-                      aria-label="写日记页面低保真示意图"
+                      aria-label="Diary page low-fidelity wireframe"
                       width="120"
                       height="256"
                       tabindex="-1"
                     ></object>
                   </figure>
                   <p class="prd-diary-summary">
-                    写日记页面是Trace的核心入口。用户每天在这里完成一次3-2-1记录——三件感恩的事、两个可以改进的地方、一句对自己的肯定。
+                    The Diary page is Trace's core entry point. Users complete a 3-2-1 record here daily—three things to be grateful for, two areas for improvement, one self-affirmation.
                   </p>
                   <p class="prd-diary-summary-follow">
-                    页面采用折叠式输入模块，每个板块归属于对应的标题下。输入框获焦时，太阳动画随之出现，为书写营造温暖的仪式感。
+                    The page uses foldable input modules, each scoped under its corresponding header. When an input field gains focus, a sun animation appears to create a warm ritual feel for writing.
                   </p>
                   <p class="prd-diary-summary-follow-tail">
-                    完成记录后，AI根据当天内容生成一张专属插画，为这天留下印记。
+                    Once the entry is complete, AI generates a unique illustration based on the day's content, leaving a mark for the day.
                   </p>
                 </div>
               </div>
               <figure class="prd-frontend-bg-fig">
-                <img src="assets/diary-frame-right.svg" alt="写日记界面参考图" width="338" height="800" loading="lazy" decoding="async" />
+                <img src="../assets/diary-frame-right.svg" alt="Diary interface reference image" width="338" height="800" loading="lazy" decoding="async" />
               </figure>
               <figure class="prd-frontend-bg-fig">
                 <video
@@ -1624,17 +1578,17 @@
                   muted
                   playsinline
                   preload="metadata"
-                  poster="assets/Main.svg"
-                  aria-label="写日记录屏演示"
+                  poster="../assets/Main.svg"
+                  aria-label="Diary screen recording"
                 >
-                  <source src="assets/diary-writing.mov" />
+                  <source src="../assets/diary-writing.mov" />
                 </video>
               </figure>
             </div>
           </div>
         </article>
         <article id="fe-design-calendar" class="card full">
-          <h2><span class="num">（2）</span>日历</h2>
+          <h2><span class="num">(2)</span>Calendar</h2>
           <div class="prd-sheet">
             <div class="prd-diary-media">
               <div class="prd-diary-copy-wrap">
@@ -1643,19 +1597,19 @@
                     <object
                       class="prd-diary-lofi-object"
                       type="image/svg+xml"
-                      data="assets/calendar-lofi.svg"
+                      data="../assets/calendar-lofi.svg"
                       role="img"
-                      aria-label="日历低保真示意图"
+                      aria-label="Calendar low-fidelity wireframe"
                       width="120"
                       height="256"
                       tabindex="-1"
                     ></object>
                   </figure>
                   <p class="prd-diary-summary">
-                    页面由两个模块构成。上方为月视图日历，每天完成日记后当日格子显示AI生成的插画缩略图，点击可查看当天完整的3-2-1记录。
+                    The page consists of two modules. The top is a monthly calendar—each completed day shows a thumbnail of its AI-generated illustration; click to view the full 3-2-1 record.
                   </p>
                   <p class="prd-diary-summary-follow">
-                    下方为刮刮乐模块，系统将用户所有历史日记中的Gratitude条目汇总为文本库，调用LLM进行语义整合，输出一句提炼后的正向表达藏于涂层之下。刮开即可看见来自过去的一段正向记忆。
+                    Below is the Scratch module: the system aggregates all historical Gratitude entries from the user's diaries into a text corpus, calls an LLM for semantic integration, and outputs a refined positive expression hidden under the overlay. Scratch to reveal a positive memory from the past.
                   </p>
                 </div>
               </div>
@@ -1663,9 +1617,9 @@
                 <object
                   class="prd-calendar-frame-134-object"
                   type="image/svg+xml"
-                  data="assets/frame-134.svg"
+                  data="../assets/frame-134.svg"
                   role="img"
-                  aria-label="日历界面 Frame 134 效果图"
+                  aria-label="Calendar interface Frame 134 visual"
                   width="500"
                   height="1183"
                   tabindex="-1"
@@ -1680,26 +1634,26 @@
                   muted
                   playsinline
                   preload="metadata"
-                  poster="assets/journey-2-calendar.svg"
-                  aria-label="日历录屏演示"
+                  poster="../assets/journey-2-calendar.svg"
+                  aria-label="Calendar screen recording"
                 >
-                  <source src="assets/calendar-feature.mov" />
+                  <source src="../assets/calendar-feature.mov" />
                 </video>
               </figure>
             </div>
           </div>
         </article>
         <article id="fe-design-ai" class="card full">
-          <h2><span class="num">（3）</span>AI 聊天</h2>
+          <h2><span class="num">(3)</span>AI Chat</h2>
           <div class="prd-sheet">
             <div class="prd-diary-media">
               <figure class="prd-frontend-bg-fig prd-ai-chat-frame-137-fig">
                 <object
                   class="prd-ai-chat-frame-137-object"
                   type="image/svg+xml"
-                  data="assets/frame-137.svg"
+                  data="../assets/frame-137.svg"
                   role="img"
-                  aria-label="AI 聊天界面 Frame 137 效果图"
+                  aria-label="AI Chat interface Frame 137 visual"
                   width="338"
                   height="356"
                   tabindex="-1"
@@ -1714,10 +1668,10 @@
                   muted
                   playsinline
                   preload="metadata"
-                  poster="assets/Main.svg"
-                  aria-label="写日记录屏演示"
+                  poster="../assets/Main.svg"
+                  aria-label="AI Chat screen recording"
                 >
-                  <source src="assets/2ai-chat-video.mov" />
+                  <source src="../assets/2ai-chat-video.mov" />
                 </video>
               </figure>
             </div>
@@ -1725,9 +1679,9 @@
         </article>
       </section>
 
-      <p id="contact" class="foot">创作者：易文迪Wendi</p>
+      <p id="contact" class="foot">Created by Wendi Yi</p>
     </main>
-    <script src="sun-canvas.js"></script>
+    <script src="../sun-canvas.js"></script>
     <script>
       (function () {
         var heroVideo = document.getElementById("hero-demo-video");
