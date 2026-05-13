@@ -2308,6 +2308,12 @@
       /* Force English copy: reject CJK and over-long lines so the card stays one-liner. */
       if (/[\u4e00-\u9fff]/.test(cleaned)) return "";
       if (cleaned.length > 80) return "";
+      /* Reject obvious fragments / truncated output (e.g. "Here is", "A quiet"). */
+      if (cleaned.length < 15) return "";
+      var wordCount = cleaned.split(/\s+/).filter(Boolean).length;
+      if (wordCount < 4) return "";
+      if (/[,;:—–-]$/.test(cleaned)) return "";
+      if (/\b(the|a|an|is|are|to|of|and|with|in|on)$/i.test(cleaned)) return "";
       return cleaned;
     }
 

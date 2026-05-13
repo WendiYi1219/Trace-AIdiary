@@ -589,7 +589,8 @@ async function handleScratchSummary(req, res) {
         temperature: 0.6,
         topP: 0.95,
         topK: 32,
-        maxOutputTokens: 48,
+        /** English needs more tokens — a full sentence plus the JSON wrapper easily reaches 60-90 tokens. */
+        maxOutputTokens: lang === "en" ? 160 : 48,
         responseMimeType: "application/json",
       },
     };
@@ -642,6 +643,15 @@ async function handleScratchSummary(req, res) {
     }
     if (!summary) {
       sendJson(res, 500, { error: "Gemini summary/source missing." });
+      return;
+    }
+    /** Guard against truncated / partial output (e.g. "Here is" when tokens ran out). */
+    const minChars = lang === "en" ? 15 : 6;
+    const minTokens = lang === "en" ? 3 : 0;
+    const looksTruncated = /[,;:—–-]\s*$/.test(summary) || /\b(the|a|an|is|are|to|of|and|with|in|on)$/i.test(summary);
+    const wordCount = lang === "en" ? summary.split(/\s+/).filter(Boolean).length : Infinity;
+    if (summary.length < minChars || wordCount < minTokens || looksTruncated) {
+      sendJson(res, 500, { error: "Gemini summary looks truncated; please retry." });
       return;
     }
     if (!sourceId && content.length === 1) {
