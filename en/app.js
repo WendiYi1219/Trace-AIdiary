@@ -1981,7 +1981,7 @@
       aiChatFillMultiline(bubble, out);
       aiChatScrollToBottom(false);
       var ch = full[i];
-      var delay = /[，。！？；,.!?]/.test(ch) ? 55 : 28;
+      var delay = /[，。！？；,.!?]/.test(ch) ? 38 : 18;
       await waitMs(delay);
     }
     aiChatScrollToBottom(true);
@@ -2074,8 +2074,8 @@
         return;
       }
 
-      aiChatAppendAssistantBubble(reply, false);
-      aiChatAppendAssistantActionBarRow(reply);
+      await aiChatAppendAssistantBubbleTyped(reply, false);
+      aiChatAppendAssistantActionBarRow(reply, true);
       aiChatHistory.push({ role: "assistant", text: reply });
       setStatus("", false);
     } catch (e) {
