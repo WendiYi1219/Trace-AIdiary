@@ -2161,22 +2161,15 @@ body {
 .ai-chat__hidden-positive-section-title {
   position: relative;
   margin: 0 0 6px;
-  padding-left: 14px;
+  padding-left: 0;
   font-size: 14px;
   font-weight: 700;
   line-height: 1.4;
-  color: rgba(17, 24, 39, 0.94);
+  color: var(--orange);
 }
 
 .ai-chat__hidden-positive-section-title::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.5em;
-  width: 6px;
-  height: 6px;
-  border-radius: 999px;
-  background: #fa8a2e;
+  content: none;
 }
 
 .ai-chat__hidden-positive-section-text {

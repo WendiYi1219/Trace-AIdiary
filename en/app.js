@@ -1872,6 +1872,8 @@
     function isTitleLine(trimmed) {
       var b = /^【([^】]+)】$/.exec(trimmed);
       if (b) return { title: b[1].trim() };
+      var a = /^\[([^\]]+)\]$/.exec(trimmed);
+      if (a) return { title: a[1].trim() };
       var s = /^\*\*\s*([^*]+?)\s*\*\*$/.exec(trimmed);
       if (s) return { title: s[1].trim() };
       return null;
@@ -1900,12 +1902,12 @@
     }
 
     if (!sections.length) {
-      var blockRe = /【([^】]+)】\s*\n([\s\S]+?)(?=\n\s*【|$)/g;
+      var blockRe = /(?:【([^】]+)】|\[([^\]]+)\])\s*\n([\s\S]+?)(?=\n\s*(?:【|\[)|$)/g;
       var bm;
       while ((bm = blockRe.exec(t)) !== null) {
-        var bt = bm[2].trim();
+        var bt = bm[3].trim();
         if (bt) {
-          sections.push({ title: bm[1].trim(), body: bt });
+          sections.push({ title: (bm[1] || bm[2] || "").trim(), body: bt });
         }
       }
     }
