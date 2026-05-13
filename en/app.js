@@ -2409,16 +2409,19 @@
     }
 
     async function refreshScratchSummaryFromAI() {
+      summaryReady = false;
       var corpus = getScratchCorpusEntries();
       if (!corpus.length) {
         prizeEl.textContent = SCRATCH_PLACEHOLDER_TEXT;
         scratchSourceMeta = null;
+        summaryReady = true;
         return;
       }
       var selectedEntry = pickDiverseScratchEntry(corpus) || pickFallbackScratchEntry(corpus);
       if (!selectedEntry) {
         prizeEl.textContent = SCRATCH_PLACEHOLDER_TEXT;
         scratchSourceMeta = null;
+        summaryReady = true;
         return;
       }
       try {
@@ -2447,6 +2450,8 @@
           day: selectedEntry.day,
           gratitudeIndex: selectedEntry.gratitudeIndex,
         };
+      } finally {
+        summaryReady = true;
       }
     }
     refreshScratchSummaryFromAI();
@@ -2477,6 +2482,8 @@
     var SCRATCH_REMAINING_THRESHOLD = 0.3;
     var hasScratchInitialized = false;
     var scratchMaskSnapshot = null;
+    /** Block scratching until the real summary is in place to avoid a mid-scratch text swap. */
+    var summaryReady = false;
 
     function setSourceBtnVisible(visible) {
       if (!sourceBtn) return;
@@ -2638,6 +2645,7 @@
 
     function onDown(e) {
       if (e.type === "mousedown" && e.button !== 0) return;
+      if (!summaryReady) return;
       if (e.type === "touchstart" && e.cancelable) e.preventDefault();
       active = true;
       hideHintOnce();
