@@ -2266,7 +2266,10 @@
       if (/friend|chat|chatting|hang out|dinner|gather|together/i.test(src)) keywordPool.push("Being with friends warmed my heart today.", "A long chat with a friend felt healing.");
       if (/sun|sunshine|weather|beautiful|happy|joyful/i.test(src)) keywordPool.push("The sun was just right, and so was my mood.", "Beautiful weather made the day feel light.");
       if (/interview|interviewer|performed|confiden/i.test(src)) keywordPool.push("The interview went well — I feel more confident.", "A good interview lit a little spark of confidence.");
-      if (/band|performance|show|lawn|stage/i.test(src)) keywordPool.push("Seeing friends perform was joyful and healing.", "A show on the lawn brought a long-missed kind of happiness.");
+      /** Live performance: explicit cues — band, lawn, stage, concert. Plain "show" alone is too ambiguous (also matches "TV show"). */
+      if (/\bband\b|\blawn\b|\bstage\b|\bconcert\b|live\s+(show|music|gig)|perform(ing|ance)/i.test(src)) keywordPool.push("Seeing friends perform was joyful and healing.", "A show on the lawn brought a long-missed kind of happiness.");
+      /** Watching shows / episodes at home — distinct from a live show. */
+      if (/episode|episodes|watched (a |some )?(show|series|tv)|watching (a |some )?(show|series|tv)/i.test(src)) keywordPool.push("A quiet evening of shows together felt cozy.", "Dinner and a few episodes with a friend made the night easy.");
       if (/anxious|anxiety|ease|easing|healing|heal/i.test(src)) keywordPool.push("As we talked, the anxiety slowly let go.", "Saying my worries out loud lifted something off my chest.");
       if (/website|web|organize|organizing|update|maintain/i.test(src)) {
         keywordPool.push("Real progress on my personal website today.", "Pushed the website project one step forward.");
