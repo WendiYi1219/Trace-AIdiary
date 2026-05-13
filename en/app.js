@@ -181,14 +181,14 @@
   const DRAFT_PREFIX = "trace:diaryDraft:v2:";
   const DIARY_ARCHIVE_KEY = "trace:diaryArchive:v1";
   const CALENDAR_PRESET_DAY_IMAGES = {
-    "1": "assets/day-1.png",
-    "9": "assets/day-9.png",
-    "10": "assets/day-10.png",
-    "14": "assets/day-14.png",
-    "16": "assets/day-16.png",
-    "21": "assets/day-21.png",
-    "22": "assets/day-22.png",
-    "24": "assets/day-24.png",
+    "1": "../assets/day-1.png",
+    "9": "../assets/day-9.png",
+    "10": "../assets/day-10.png",
+    "14": "../assets/day-14.png",
+    "16": "../assets/day-16.png",
+    "21": "../assets/day-21.png",
+    "22": "../assets/day-22.png",
+    "24": "../assets/day-24.png",
   };
   const CALENDAR_PRESET_DAY_ARCHIVES = {
     "21": {
