@@ -1064,20 +1064,37 @@ const HIDDEN_POSITIVE_SYSTEM_INSTRUCTION = [
   "• 各【】小标题必须互不相同；**禁止**用同一标题开两节；禁止在正文里重复粘贴上一节的句子。",
 ].join("\n");
 
+/** EN-specific override: when lang === "en", append this so the model knows the larger budget and English formatting. */
+const HIDDEN_POSITIVE_EN_OVERRIDE = [
+  "",
+  "===== ENGLISH OVERRIDE (applies on top of all rules above) =====",
+  "Write the entire output in natural English (US). Use ASCII brackets [Title] for section headers (NOT 【】). Use ASCII punctuation (. , ; ! ?) instead of Chinese punctuation.",
+  "Length budget: total visible body MUST stay within ~700 characters (about 110 English words). Prefer 2-3 sections; never 4. Each section: 1 short title line in [brackets] + 2-3 short sentences (~35 words / ~200 chars per section).",
+  "End every paragraph and every section with a complete sentence ending in '.', '?' or '!'. Do not let a clause hang. Section titles must be unique. Leave a blank line between sections.",
+  "Tone: warm, restrained, concrete; no purple prose, no slogans, no 'overall'/'in summary' wrap-up. Reference what the user actually wrote without quoting full sentences.",
+].join("\n");
+
 /** 模型正文（不含前端卡片顶栏）字数上限；与系统提示中的「250 字」一致 */
 const HIDDEN_POSITIVE_MAX_CHARS = 250;
 
-/** 去掉重复的【同一标题】及其正文（保留第一节） */
+/** EN: English needs ~3x the character budget to express the same density as Chinese. */
+const HIDDEN_POSITIVE_MAX_CHARS_EN = 750;
+
+function getHiddenPositiveMaxChars(lang) {
+  return lang === "en" ? HIDDEN_POSITIVE_MAX_CHARS_EN : HIDDEN_POSITIVE_MAX_CHARS;
+}
+
+/** 去掉重复的【同一标题】及其正文（保留第一节）；同时支持英文 [Title] 格式 */
 function dedupeHiddenPositiveBracketSections(text) {
   const lines = String(text || "").split("\n");
   const seen = new Set();
   const out = [];
-  const titleLine = /^【([^】]+)】$/;
+  const titleLine = /^(?:【([^】]+)】|\[([^\]]+)\])$/;
   for (let i = 0; i < lines.length; i += 1) {
     const tr = lines[i].trim();
     const m = titleLine.exec(tr);
     if (m) {
-      const ttl = m[1].trim();
+      const ttl = (m[1] || m[2] || "").trim().toLowerCase();
       if (seen.has(ttl)) {
         while (i + 1 < lines.length && !titleLine.test(lines[i + 1].trim())) {
           i += 1;
@@ -1111,7 +1128,11 @@ function trimHiddenPositiveToMaxChars(text, max) {
     chunk.lastIndexOf("。"),
     chunk.lastIndexOf("！"),
     chunk.lastIndexOf("？"),
-    chunk.lastIndexOf("；")
+    chunk.lastIndexOf("；"),
+    chunk.lastIndexOf("."),
+    chunk.lastIndexOf("!"),
+    chunk.lastIndexOf("?"),
+    chunk.lastIndexOf(";")
   );
   if (punctIdx >= 0 && punctIdx > Math.floor(chunk.length * 0.2)) {
     return chunk.slice(0, punctIdx + 1).trim();
@@ -1120,12 +1141,12 @@ function trimHiddenPositiveToMaxChars(text, max) {
 }
 
 /** 拼写叠字、去重标题、按字数上限截断（字数预算不由 max_tokens 承担，避免半途截断） */
-function postProcessHiddenPositiveOutput(raw) {
+function postProcessHiddenPositiveOutput(raw, lang) {
   let t = normalizeHiddenPositiveModelText(raw);
   if (!t) return "";
   t = t.replace(/你{2,}/g, "你").replace(/我{2,}/g, "我");
   t = dedupeHiddenPositiveBracketSections(t);
-  t = trimHiddenPositiveToMaxChars(t, HIDDEN_POSITIVE_MAX_CHARS);
+  t = trimHiddenPositiveToMaxChars(t, getHiddenPositiveMaxChars(lang));
   return t.trim();
 }
 
@@ -1222,7 +1243,9 @@ async function generateHiddenPositiveWithClaude(userText, lang) {
           /** 与「约 250 字」正文的体量无关；过低会在模型仍啰嗦时先顶到 max_tokens 导致半句截断，故给足头 room */
           max_tokens: 4096,
           temperature: 0.38,
-          system: applyLangGuard(HIDDEN_POSITIVE_SYSTEM_INSTRUCTION, lang),
+          system: lang === "en"
+            ? HIDDEN_POSITIVE_SYSTEM_INSTRUCTION + HIDDEN_POSITIVE_EN_OVERRIDE
+            : HIDDEN_POSITIVE_SYSTEM_INSTRUCTION,
           messages: [{ role: "user", content: userText }],
         }),
       });
@@ -1254,7 +1277,11 @@ async function generateHiddenPositiveWithGemini(userText, lang) {
       maxOutputTokens: 4096,
     },
     systemInstruction: {
-      parts: [{ text: applyLangGuard(HIDDEN_POSITIVE_SYSTEM_INSTRUCTION, lang) }],
+      parts: [{
+        text: lang === "en"
+          ? HIDDEN_POSITIVE_SYSTEM_INSTRUCTION + HIDDEN_POSITIVE_EN_OVERRIDE
+          : HIDDEN_POSITIVE_SYSTEM_INSTRUCTION,
+      }],
     },
   };
   const result = await geminiGenerateContentWithRetries(body, getGeminiTextModelChain());
@@ -1277,13 +1304,15 @@ async function streamHiddenPositiveClaudeModelsToRes(res, userPrompt, lang) {
       const response = await anthropicMessagesFetchStreamBody(modelName, {
         max_tokens: 4096,
         temperature: 0.38,
-        system: applyLangGuard(HIDDEN_POSITIVE_SYSTEM_INSTRUCTION, lang),
+        system: lang === "en"
+          ? HIDDEN_POSITIVE_SYSTEM_INSTRUCTION + HIDDEN_POSITIVE_EN_OVERRIDE
+          : HIDDEN_POSITIVE_SYSTEM_INSTRUCTION,
         messages: [{ role: "user", content: userPrompt }],
       });
       const fullRaw = await streamClaudeMessagesWithDeltas(response, (delta) =>
         writeNdjsonLine(res, { type: "delta", text: delta })
       );
-      const processed = postProcessHiddenPositiveOutput(normalizeHiddenPositiveModelText(fullRaw));
+      const processed = postProcessHiddenPositiveOutput(normalizeHiddenPositiveModelText(fullRaw), lang);
       writeNdjsonLine(res, { type: "done", text: processed || "" });
       return;
     } catch (e) {
@@ -1299,6 +1328,15 @@ const EMOTION_NARRATIVE_SYSTEM_INSTRUCTION = [
   "请用 2～4 句简体中文概括这段时间情绪走势与值得留意的线索；语气克制、同理、具体。",
   "禁止医学诊断、用药建议或危机处置指令；勿重复堆砌分数数字；不说教。",
   "不要自称「作为一个 AI」。输出为正文章节，不要使用 markdown 标题。",
+].join("\n");
+
+const EMOTION_NARRATIVE_EN_OVERRIDE = [
+  "",
+  "===== ENGLISH OVERRIDE =====",
+  "Write the entire response in natural English (US). Use ASCII punctuation.",
+  "Length: 3-5 complete sentences (about 60-90 words). End every sentence with '.', '?' or '!'.",
+  "Do NOT cut off mid-clause; if you start a sentence, finish it before stopping.",
+  "Tone: restrained, empathetic, concrete. No medical advice, no preaching, no 'as an AI', no markdown headers.",
 ].join("\n");
 
 function buildEmotionNarrativeUserPrompt(entries, points) {
@@ -1328,9 +1366,11 @@ async function streamEmotionNarrativeIntoRes(res, entries, points, lang) {
     for (const modelName of models) {
       try {
         const response = await anthropicMessagesFetchStreamBody(modelName, {
-          max_tokens: 520,
+          max_tokens: lang === "en" ? 1024 : 520,
           temperature: 0.35,
-          system: applyLangGuard(EMOTION_NARRATIVE_SYSTEM_INSTRUCTION, lang),
+          system: lang === "en"
+            ? EMOTION_NARRATIVE_SYSTEM_INSTRUCTION + EMOTION_NARRATIVE_EN_OVERRIDE
+            : EMOTION_NARRATIVE_SYSTEM_INSTRUCTION,
           messages: [{ role: "user", content: prompt }],
         });
         await streamClaudeMessagesWithDeltas(response, (delta) => writeNdjsonLine(res, { type: "delta", text: delta }));
@@ -1345,10 +1385,14 @@ async function streamEmotionNarrativeIntoRes(res, entries, points, lang) {
       contents: [{ role: "user", parts: [{ text: prompt }] }],
       generationConfig: {
         temperature: 0.35,
-        maxOutputTokens: 520,
+        maxOutputTokens: lang === "en" ? 1024 : 520,
       },
       systemInstruction: {
-        parts: [{ text: applyLangGuard(EMOTION_NARRATIVE_SYSTEM_INSTRUCTION, lang) }],
+        parts: [{
+          text: lang === "en"
+            ? EMOTION_NARRATIVE_SYSTEM_INSTRUCTION + EMOTION_NARRATIVE_EN_OVERRIDE
+            : EMOTION_NARRATIVE_SYSTEM_INSTRUCTION,
+        }],
       },
     };
     const result = await geminiGenerateContentWithRetries(bodyObj, getGeminiTextModelChain());
@@ -1407,7 +1451,7 @@ async function handleHiddenPositiveSignals(req, res) {
       try {
         const rawText = await generateHiddenPositiveWithGemini(userPrompt, lang);
         writeFakeTextDeltas(res, rawText, 12);
-        const processed = postProcessHiddenPositiveOutput(rawText);
+        const processed = postProcessHiddenPositiveOutput(rawText, lang);
         writeNdjsonLine(res, { type: "done", text: processed || "" });
         streamed = true;
       } catch {
@@ -1417,7 +1461,7 @@ async function handleHiddenPositiveSignals(req, res) {
     if (!streamed) {
       const fallback = buildHiddenPositiveFallbackInsight(entries);
       writeFakeTextDeltas(res, fallback, 12);
-      const processed = postProcessHiddenPositiveOutput(fallback);
+      const processed = postProcessHiddenPositiveOutput(fallback, lang);
       writeNdjsonLine(res, { type: "done", text: processed || "" });
     }
     res.end();
