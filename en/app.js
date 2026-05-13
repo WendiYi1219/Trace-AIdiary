@@ -548,7 +548,7 @@
       var response = await fetch(generateApiBase + "/api/generate-image", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ lines: lines }),
+        body: JSON.stringify({ lines: lines, lang: "en" }),
       });
 
       var text = await response.text();
@@ -1163,6 +1163,7 @@
             startDate: startKey,
             endDate: endKey,
             entries: entries,
+            lang: "en",
           }),
         });
         var points = [];
@@ -1217,7 +1218,7 @@
           var hidRes = await fetch(baseUrl + "/api/hidden-positive-signals", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ entries: entriesForHidden }),
+            body: JSON.stringify({ entries: entriesForHidden, lang: "en" }),
           });
           if (!hidRes.ok || !hidRes.body || typeof hidRes.body.getReader !== "function") {
             throw new Error("Hidden-positive-signals request failed (" + hidRes.status + ")");
@@ -1392,9 +1393,16 @@
     var compact = s.replace(/\s+/g, "");
     var low = s.toLowerCase();
 
-    if (/^who\s+are\s+you\??$/i.test(low)) return true;
-    if (/^what\s+are\s+you\??$/i.test(low)) return true;
-    if (/^what'?s\s+your\s+name\??$/i.test(low)) return true;
+    if (/\bwho\s+(do\s+you\s+think\s+)?you\s+(think\s+you\s+)?(are|am)\b/i.test(low)) return true;
+    if (/\bwho\s+r\s+u\b/i.test(low)) return true;
+    if (/\bwhat\s+are\s+you\b/i.test(low)) return true;
+    if (/\bwhat'?s\s+your\s+name\b/i.test(low)) return true;
+    if (/\bwhat\s+is\s+your\s+name\b/i.test(low)) return true;
+    if (/\b(introduce|tell\s+me\s+about)\s+(your)?self\b/i.test(low)) return true;
+    if (/\bare\s+you\s+(an?\s+)?(ai|bot|echo|chatbot|assistant|robot)\b/i.test(low)) return true;
+    if (/\bwhich\s+(model|ai)\b/i.test(low)) return true;
+    if (/\bwhat\s+(model|ai)\s+(are\s+you|do\s+you\s+use)\b/i.test(low)) return true;
+    if (/\byour\s+(identity|name|model)\b/i.test(low)) return true;
 
     if (/你是谁(?!写)/.test(compact)) return true;
     if (/您是谁(?!写)/.test(compact)) return true;
@@ -1442,7 +1450,7 @@
     ];
     if (exact.indexOf(compact) >= 0) return true;
     var low = s.toLowerCase();
-    if (/^(hi|hello|hey|hiya)([!！?？。.,，\s]*)$/i.test(low)) return true;
+    if (/^(hi|hello|hey|hiya|yo|sup|howdy|good\s+(morning|afternoon|evening|night))([!！?？。.,，\s]*)$/i.test(low)) return true;
     return false;
   }
 
@@ -1467,7 +1475,7 @@
     wrap.className = "ai-chat__action-bar-wrap";
     var img = document.createElement("img");
     img.className = "ai-chat__action-bar-img";
-    img.src = "assets/frame-120.svg";
+    img.src = "../assets/frame-120.svg";
     img.alt = "";
     img.decoding = "async";
     img.width = 168;
@@ -2041,7 +2049,7 @@
       var response = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: aiChatHistory }),
+        body: JSON.stringify({ messages: aiChatHistory, lang: "en" }),
       });
       var payload = await response.json().catch(function () {
         return {};
@@ -2378,6 +2386,7 @@
         body: JSON.stringify({
           entries: [{ sourceId: entry.sourceId, text: entry.text }],
           avoidSummaries: avoidSummaries || [],
+          lang: "en",
         }),
       });
       var payload = await response.json();

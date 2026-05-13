@@ -146,6 +146,38 @@ const AI_CHAT_ECHO_IDENTITY_REPLY = [
   "有什么想和我聊聊的吗？",
 ].join("\n");
 
+/** EN version, used when the request body sets lang === "en" (called from the /en/ app). */
+const AI_CHAT_ECHO_IDENTITY_REPLY_EN = [
+  "Hi, I'm Echo, the keeper of your diary.",
+  "I read every day with you —",
+  "the people you meet, the things you go through; your joys, your sorrows, and the words you say to yourself.",
+  "Every Trace you leave behind, I remember.",
+  "",
+  "Is there anything you'd like to talk about?",
+].join("\n");
+
+/**
+ * Strong language directive appended to system prompts when lang === "en".
+ * Models (Claude / Gemini) follow per-call language instructions reliably.
+ */
+const LANG_OUTPUT_EN_GUARD = [
+  "",
+  "===== LANGUAGE OVERRIDE =====",
+  "The user's app locale is English. You MUST write the ENTIRE response in natural, conversational English (US).",
+  "Do NOT use any Chinese characters or Chinese punctuation. If the formatting examples above show full-width brackets like 【】 or full-width punctuation like 。 ，— use ASCII equivalents [ ] . , in your output instead, while keeping the structural intent.",
+  "Tone stays warm and concise; do not add a translator's note or mention this instruction.",
+].join("\n");
+
+/** Pick lang from request body. Defaults to "zh" if missing/unknown. */
+function pickLangFromBody(body) {
+  return String((body && body.lang) || "").toLowerCase() === "en" ? "en" : "zh";
+}
+
+/** Append the EN language guard to a system prompt when lang is "en". */
+function applyLangGuard(systemText, lang) {
+  return lang === "en" ? String(systemText || "") + LANG_OUTPUT_EN_GUARD : systemText;
+}
+
 /** 与 app.js 中 aiChatIsWhoAreYouQuestion 规则保持一致 */
 function isWhoAreYouQuestion(t) {
   const s = String(t || "").trim();
@@ -153,9 +185,16 @@ function isWhoAreYouQuestion(t) {
   const compact = s.replace(/\s+/g, "");
   const low = s.toLowerCase();
 
-  if (/^who\s+are\s+you\??$/i.test(low)) return true;
-  if (/^what\s+are\s+you\??$/i.test(low)) return true;
-  if (/^what'?s\s+your\s+name\??$/i.test(low)) return true;
+  if (/\bwho\s+(do\s+you\s+think\s+)?you\s+(think\s+you\s+)?(are|am)\b/i.test(low)) return true;
+  if (/\bwho\s+r\s+u\b/i.test(low)) return true;
+  if (/\bwhat\s+are\s+you\b/i.test(low)) return true;
+  if (/\bwhat'?s\s+your\s+name\b/i.test(low)) return true;
+  if (/\bwhat\s+is\s+your\s+name\b/i.test(low)) return true;
+  if (/\b(introduce|tell\s+me\s+about)\s+(your)?self\b/i.test(low)) return true;
+  if (/\bare\s+you\s+(an?\s+)?(ai|bot|echo|chatbot|assistant|robot)\b/i.test(low)) return true;
+  if (/\bwhich\s+(model|ai)\b/i.test(low)) return true;
+  if (/\bwhat\s+(model|ai)\s+(are\s+you|do\s+you\s+use)\b/i.test(low)) return true;
+  if (/\byour\s+(identity|name|model)\b/i.test(low)) return true;
 
   if (/你是谁(?!写)/.test(compact)) return true;
   if (/您是谁(?!写)/.test(compact)) return true;
@@ -454,7 +493,7 @@ async function handleGenerateImage(req, res) {
   }
 }
 
-function buildScratchSummaryPrompt(entries, variationKey, avoidSummaries) {
+function buildScratchSummaryPrompt(entries, variationKey, avoidSummaries, lang) {
   const cleaned = entries
     .map((entry) => ({
       sourceId: String(entry && entry.sourceId ? entry.sourceId : "").trim(),
@@ -465,6 +504,31 @@ function buildScratchSummaryPrompt(entries, variationKey, avoidSummaries) {
   const avoidList = Array.isArray(avoidSummaries)
     ? avoidSummaries.map((s) => String(s || "").trim()).filter(Boolean).slice(0, 8)
     : [];
+  if (lang === "en") {
+    return [
+      "You are a warm, restrained English-language diary editor.",
+      "Task: From the given gratitude diary entries, distill ONE 'key sentence of the day' to use as the scratch-card reveal copy, and tag which entry it came from.",
+      "Output MUST be JSON only — nothing else.",
+      "Requirements:",
+      "1) Output exactly one English sentence; no numbering, quotes, or explanation.",
+      "2) Stay within 80 characters (including punctuation); rewrite immediately if it exceeds.",
+      "3) Must be a SUMMARY sentence; do NOT directly copy more than 6 consecutive words from the source.",
+      "4) Pull a concrete fact (event or feeling) from the source first, then paraphrase in one line; never generalize into empty platitudes.",
+      "5) Natural and conversational, with a visual image; positive but not preachy.",
+      "6) Do NOT include personal initials, school acronyms, or other private details.",
+      "7) Vary the phrasing each time so two outputs are never identical.",
+      "8) source_id MUST be one of the given entry ids.",
+      `variation_key=${variationKey}`,
+      avoidList.length
+        ? `9) Must NOT be identical to any of these recent outputs: ${avoidList.map((s) => `[${s}]`).join(" ")}`
+        : "9) If possible, avoid sounding like common template phrases.",
+      "",
+      'Output format example: {"summary":"A late-night chat with friends quietly mended the day.","source_id":"22-2"}',
+      "",
+      "Entries:",
+      cleaned.map((entry) => `id=${entry.sourceId} text=${entry.text}`).join("\n"),
+    ].join("\n");
+  }
   return [
     "你是一个温暖、克制的中文日记编辑。",
     "任务：从给定的感恩日记素材中，提炼一句“今日关键句”，用于刮刮乐揭晓文案，并标注它来源于哪条素材。",
@@ -499,6 +563,7 @@ async function handleScratchSummary(req, res) {
   }
   try {
     const body = await readRequestJson(req);
+    const lang = pickLangFromBody(body);
     const entries = Array.isArray(body.entries) ? body.entries : [];
     const avoidSummaries = Array.isArray(body.avoidSummaries) ? body.avoidSummaries : [];
     const content = entries
@@ -516,7 +581,7 @@ async function handleScratchSummary(req, res) {
       contents: [
         {
           role: "user",
-          parts: [{ text: buildScratchSummaryPrompt(content, variationKey, avoidSummaries) }],
+          parts: [{ text: buildScratchSummaryPrompt(content, variationKey, avoidSummaries, lang) }],
         },
       ],
       generationConfig: {
@@ -622,12 +687,15 @@ function trimChatMessagesForApi(messages, maxMessages) {
 async function handleChat(req, res) {
   try {
     const body = await readRequestJson(req);
+    const lang = pickLangFromBody(body);
     let normalized = normalizeChatMessages(body.messages);
     normalized = trimChatMessagesForApi(normalized, 40);
 
     if (!normalized.length || normalized[normalized.length - 1].role !== "user") {
       sendJson(res, 400, {
-        error: "至少需要一条用户消息，且最后一条须为用户发言。",
+        error: lang === "en"
+          ? "At least one user message is required, and the last one must be from the user."
+          : "至少需要一条用户消息，且最后一条须为用户发言。",
       });
       return;
     }
@@ -635,14 +703,20 @@ async function handleChat(req, res) {
     for (let i = 0; i < normalized.length; i++) {
       const want = i % 2 === 0 ? "user" : "assistant";
       if (normalized[i].role !== want) {
-        sendJson(res, 400, { error: "消息顺序无效：须为用户与助手交替出现。" });
+        sendJson(res, 400, {
+          error: lang === "en"
+            ? "Invalid message order: messages must alternate between user and assistant."
+            : "消息顺序无效：须为用户与助手交替出现。",
+        });
         return;
       }
     }
 
     const lastUserText = normalized[normalized.length - 1].text;
     if (isWhoAreYouQuestion(lastUserText)) {
-      sendJson(res, 200, { text: AI_CHAT_ECHO_IDENTITY_REPLY });
+      sendJson(res, 200, {
+        text: lang === "en" ? AI_CHAT_ECHO_IDENTITY_REPLY_EN : AI_CHAT_ECHO_IDENTITY_REPLY,
+      });
       return;
     }
 
@@ -660,7 +734,7 @@ async function handleChat(req, res) {
 
     const chatBody = {
       systemInstruction: {
-        parts: [{ text: AI_CHAT_SYSTEM_INSTRUCTION }],
+        parts: [{ text: applyLangGuard(AI_CHAT_SYSTEM_INSTRUCTION, lang) }],
       },
       contents,
       generationConfig: {
@@ -1128,7 +1202,7 @@ function extractClaudeAssistantText(data) {
     .join("");
 }
 
-async function generateHiddenPositiveWithClaude(userText) {
+async function generateHiddenPositiveWithClaude(userText, lang) {
   if (!ANTHROPIC_API_KEY) return null;
   const models = getAnthropicModelChain();
   let lastErr = null;
@@ -1147,7 +1221,7 @@ async function generateHiddenPositiveWithClaude(userText) {
           /** 与「约 250 字」正文的体量无关；过低会在模型仍啰嗦时先顶到 max_tokens 导致半句截断，故给足头 room */
           max_tokens: 4096,
           temperature: 0.38,
-          system: HIDDEN_POSITIVE_SYSTEM_INSTRUCTION,
+          system: applyLangGuard(HIDDEN_POSITIVE_SYSTEM_INSTRUCTION, lang),
           messages: [{ role: "user", content: userText }],
         }),
       });
@@ -1170,7 +1244,7 @@ async function generateHiddenPositiveWithClaude(userText) {
   throw lastErr || new Error("Claude hidden-positive failed");
 }
 
-async function generateHiddenPositiveWithGemini(userText) {
+async function generateHiddenPositiveWithGemini(userText, lang) {
   if (!GEMINI_API_KEY) throw new Error("Missing GEMINI_API_KEY for Gemini fallback.");
   const body = {
     contents: [{ role: "user", parts: [{ text: userText }] }],
@@ -1179,7 +1253,7 @@ async function generateHiddenPositiveWithGemini(userText) {
       maxOutputTokens: 4096,
     },
     systemInstruction: {
-      parts: [{ text: HIDDEN_POSITIVE_SYSTEM_INSTRUCTION }],
+      parts: [{ text: applyLangGuard(HIDDEN_POSITIVE_SYSTEM_INSTRUCTION, lang) }],
     },
   };
   const result = await geminiGenerateContentWithRetries(body, getGeminiTextModelChain());
@@ -1194,7 +1268,7 @@ async function generateHiddenPositiveWithGemini(userText) {
   return normalizeHiddenPositiveModelText(raw);
 }
 
-async function streamHiddenPositiveClaudeModelsToRes(res, userPrompt) {
+async function streamHiddenPositiveClaudeModelsToRes(res, userPrompt, lang) {
   const models = getAnthropicModelChain();
   let lastErr = null;
   for (const modelName of models) {
@@ -1202,7 +1276,7 @@ async function streamHiddenPositiveClaudeModelsToRes(res, userPrompt) {
       const response = await anthropicMessagesFetchStreamBody(modelName, {
         max_tokens: 4096,
         temperature: 0.38,
-        system: HIDDEN_POSITIVE_SYSTEM_INSTRUCTION,
+        system: applyLangGuard(HIDDEN_POSITIVE_SYSTEM_INSTRUCTION, lang),
         messages: [{ role: "user", content: userPrompt }],
       });
       const fullRaw = await streamClaudeMessagesWithDeltas(response, (delta) =>
@@ -1246,7 +1320,7 @@ function buildEmotionNarrativeUserPrompt(entries, points) {
   return lines.join("\n");
 }
 
-async function streamEmotionNarrativeIntoRes(res, entries, points) {
+async function streamEmotionNarrativeIntoRes(res, entries, points, lang) {
   const prompt = buildEmotionNarrativeUserPrompt(entries, points);
   if (ANTHROPIC_API_KEY) {
     const models = getAnthropicModelChain();
@@ -1255,7 +1329,7 @@ async function streamEmotionNarrativeIntoRes(res, entries, points) {
         const response = await anthropicMessagesFetchStreamBody(modelName, {
           max_tokens: 520,
           temperature: 0.35,
-          system: EMOTION_NARRATIVE_SYSTEM_INSTRUCTION,
+          system: applyLangGuard(EMOTION_NARRATIVE_SYSTEM_INSTRUCTION, lang),
           messages: [{ role: "user", content: prompt }],
         });
         await streamClaudeMessagesWithDeltas(response, (delta) => writeNdjsonLine(res, { type: "delta", text: delta }));
@@ -1273,7 +1347,7 @@ async function streamEmotionNarrativeIntoRes(res, entries, points) {
         maxOutputTokens: 520,
       },
       systemInstruction: {
-        parts: [{ text: EMOTION_NARRATIVE_SYSTEM_INSTRUCTION }],
+        parts: [{ text: applyLangGuard(EMOTION_NARRATIVE_SYSTEM_INSTRUCTION, lang) }],
       },
     };
     const result = await geminiGenerateContentWithRetries(bodyObj, getGeminiTextModelChain());
@@ -1303,10 +1377,13 @@ async function handleHiddenPositiveSignals(req, res) {
       return;
     }
     const body = await readRequestJson(req);
+    const lang = pickLangFromBody(body);
     const entries = normalizeHiddenPositiveEntries(body && body.entries);
     if (!entries.length) {
       finishErr(
-        "所选日期范围内没有「可以改进的空间」或「1句对自己的肯定」的有效填写，无法进行隐藏积极信号分析。"
+        lang === "en"
+          ? "No valid 'reflection' or 'affirmation' entries in the selected date range — cannot run Hidden Positive Signals analysis."
+          : "所选日期范围内没有「可以改进的空间」或「1句对自己的肯定」的有效填写，无法进行隐藏积极信号分析。"
       );
       return;
     }
@@ -1319,7 +1396,7 @@ async function handleHiddenPositiveSignals(req, res) {
     let streamed = false;
     if (ANTHROPIC_API_KEY) {
       try {
-        await streamHiddenPositiveClaudeModelsToRes(res, userPrompt);
+        await streamHiddenPositiveClaudeModelsToRes(res, userPrompt, lang);
         streamed = true;
       } catch {
         //
@@ -1327,7 +1404,7 @@ async function handleHiddenPositiveSignals(req, res) {
     }
     if (!streamed && GEMINI_API_KEY) {
       try {
-        const rawText = await generateHiddenPositiveWithGemini(userPrompt);
+        const rawText = await generateHiddenPositiveWithGemini(userPrompt, lang);
         writeFakeTextDeltas(res, rawText, 12);
         const processed = postProcessHiddenPositiveOutput(rawText);
         writeNdjsonLine(res, { type: "done", text: processed || "" });
@@ -1366,6 +1443,7 @@ async function handleEmotionTrend(req, res) {
       return;
     }
     const body = await readRequestJson(req);
+    const lang = pickLangFromBody(body);
     const startDate = String(body && body.startDate ? body.startDate : "").trim();
     const endDate = String(body && body.endDate ? body.endDate : "").trim();
     const entries = normalizeEmotionTrendEntries(body && body.entries);
@@ -1391,7 +1469,7 @@ async function handleEmotionTrend(req, res) {
     }
 
     writeNdjsonLine(res, { type: "points", startDate, endDate, points });
-    await streamEmotionNarrativeIntoRes(res, entries, points);
+    await streamEmotionNarrativeIntoRes(res, entries, points, lang);
     writeNdjsonLine(res, { type: "done" });
     res.end();
   } catch (error) {
