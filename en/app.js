@@ -1378,7 +1378,8 @@
   }
 
   var AI_CHAT_ECHO_INTRO_TEXT = [
-    "Hi, I'm Echo, the keeper of your diary.",
+    "Hi, I'm Echo,",
+    "the keeper of your diary.",
     "I read every day with you —",
     "the people you meet, the things you go through; your joys, your sorrows, and the words you say to yourself.",
     "Every Trace you leave behind, I remember.",
