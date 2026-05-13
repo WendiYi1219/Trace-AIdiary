@@ -1374,9 +1374,12 @@ body {
   padding-bottom: 42px;
 }
 
-/* English version: long words need to wrap normally — keep-all (designed for CJK) causes overflow. */
+/* English version: long words need to wrap normally — keep-all (designed for CJK) causes overflow.
+   Also slightly smaller font + tighter line-height so 3 lines fit without grazing the top edge. */
 html[lang="en"] .scratch-card-glass__reveal-text {
   max-width: 88%;
+  font-size: 13.5px;
+  line-height: 1.42;
   letter-spacing: 0.01em;
   word-break: normal;
   overflow-wrap: break-word;
