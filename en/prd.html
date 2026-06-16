@@ -762,20 +762,6 @@
         max-height: 800px;
         object-fit: contain;
       }
-      /* 录屏解码失败时仍保留手机竖屏占位，避免右侧空一列 */
-      .prd-diary-media figure.prd-frontend-bg-fig:has(video) {
-        aspect-ratio: 338 / 800;
-        background: #0f172a;
-        border-radius: 14px;
-        overflow: hidden;
-      }
-      .prd-diary-media figure.prd-frontend-bg-fig video {
-        display: block;
-        width: 100%;
-        height: 100%;
-        max-height: none;
-        object-fit: contain;
-      }
       .prd-diary-media > figure:nth-child(2) {
         margin-left: 12px;
       }
